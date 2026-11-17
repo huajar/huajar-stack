@@ -1,0 +1,1135 @@
+{
+  "reference": "https://github.com/cursor/plugins/tree/2f87c854fe3e2fcda44ca86b46ede35aad3c46b7/pstack",
+  "groups": {
+    "K1": "Claude Code reads the agent frontmatter field `background`, not `is_background`.",
+    "A1": "Identity rename. huajar-stack is its own plugin.",
+    "K5": "CI requires a contents list in a reference over 100 lines.",
+    "K2": "The map cannot express this step: the run needs `permissions.allow` rules before the user steps away.",
+    "K4": "The map cannot express this step: on Windows an open handle makes the worktree removal fail halfway.",
+    "A4": "huajar-stack's own reference for workers through herdr. pstack has no counterpart.",
+    "K6": "The map sends setup-pstack here. This skill adds the budget ladder, the Local ceiling, and the quota cap, which pstack has no counterpart for.",
+    "K7": "pstack's help teaches Cursor: /add-plugin, Custom Modes and Option+Enter, Cursor's docs, and cursor-team-kit as another plugin. A map row cannot turn that into correct help for installing and running huajar-stack in Claude Code with Herdr.",
+    "K8": "local-workers.md reads the Parallel instances line of a project's verify skill to cap Local workers that run the app. pstack has no such cap.",
+    "K9": "Claude Code's auto mode clears one action per chat approval and blocks the agent's own settings edits, so an unattended run needs its allow rules pasted first. Cursor has no counterpart.",
+    "K13": "A script runs as code, so the map cannot translate it. It reads Claude Code transcripts under ~/.claude/projects, matches Windows paths as JSON and Git Bash write them, and keeps worktree paths that hold spaces.",
+    "K12": "The test script also runs brief.test.ts, the test of brief.mjs, which local-workers.md uses to write Local worker briefs.",
+    "K10": "A Cloud owner cannot run gh GraphQL, so watch-pr falls back to the REST reader in rest.ts, which rest.test.ts tests.",
+    "K11": "The test fakes gh with a bash script on a colon-separated PATH, which does not run on Windows.",
+    "K14": "pstack installs with /add-plugin in a Cursor chat. People need the Claude Code install, and the map only helps agents.",
+    "K15": "setup-huajar-stack differs from setup-pstack. It has Claude-only defaults at medium, the budget ladder, the Local ceiling, and the quota cap. The guide says what setup really does.",
+    "K17": "People read the guide, so it names Claude Code's paths and docs, such as .claude/skills and the skill docs, where pstack names Cursor's. The map only helps agents.",
+    "K18": "pstack keeps the mode on with a Cursor Custom Mode. In Claude Code the mode stays in context until a compaction, so the guide says when to invoke it again.",
+    "K19": "pstack isolates parallel work with Cursor cloud subagents. huajar-stack runs Cloud workers from hc terminals, with the probe and the quota cap.",
+    "K20": "huajar-stack runs only Claude models, so the judge and the trail reviewer run on Opus, not on a model from another vendor.",
+    "K21": "GitHub slugs huajar-stack's heading with its /huajar-stack: prefix, so the link anchor differs from pstack's.",
+    "K22": "huajar-stack ships deslop itself, so the guide does not send people to another plugin.",
+    "K23": "Claude Code guidance in place of a Cursor-only feature, or with no Cursor counterpart: /loop as a bundled skill, auto mode allow rules, restarting Claude Code, Claude Code Projects, routines, Desktop scheduled tasks, and the bundled /run and /verify.",
+    "K24": "The pictures come from pstack and show its command names, so the guide tells people what to type instead.",
+    "K25": "pstack's guide teaches Cursor and adds notes on installing and running pstack in Claude Code. huajar-stack's guide teaches Claude Code alone and writes each command with its `/huajar-stack:` prefix, so it needs no such notes.",
+    "K26": "local-workers.md writes each Local worker's brief with brief.mjs, which brief.test.ts tests. pstack starts no workers through `hc`, so it has neither file.",
+    "K27": "pstack's text here covers a piece that the map's Left out of huajar-stack table names, so huajar-stack does not ship it: the statechart or make-bot-ui skill, or the benny automation pack.",
+    "K28": "Claude Code's Agent tool takes `effort` as well as `model`, and setup-huajar-stack's rule omits both for `inherit-parent` and `auto`, so pstack's sentence that the subagent `model` field alone is omitted is false here.",
+    "K29": "huajar-agent's file has no model line. A Cursor slug there would reach the Claude Code API, so the caller passes model and effort on every spawn, as the adapter says."
+  },
+  "files": {
+    "agents/huajar-agent.md": {
+      "sentences": [
+        {
+          "sentence": "background: true",
+          "group": "K1"
+        },
+        {
+          "sentence": "# Huajar subagent",
+          "group": "A1"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "is_background: true",
+          "group": "K1"
+        },
+        {
+          "sentence": "# Poteto subagent",
+          "group": "A1"
+        },
+        {
+          "sentence": "model: claude-opus-5-5-xhigh-fast",
+          "group": "K29"
+        }
+      ]
+    },
+    "skills/huajar-mode/SKILL.md": {
+      "sentences": [
+        {
+          "sentence": "description: huajar's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work.",
+          "group": "A1"
+        },
+        {
+          "sentence": "Use for huajar, /huajar-stack:huajar-mode, or requests to work in this style.",
+          "group": "A1"
+        },
+        {
+          "sentence": "# Huajar mode",
+          "group": "A1"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work.",
+          "group": "A1"
+        },
+        {
+          "sentence": "Use for poteto, /poteto-mode, or requests to work in this style.",
+          "group": "A1"
+        },
+        {
+          "sentence": "# Poteto mode",
+          "group": "A1"
+        }
+      ]
+    },
+    "skills/huajar-mode/references/bugbot-triage.md": {
+      "sentences": [
+        {
+          "sentence": "## Contents",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Decision rubric](#decision-rubric)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Learned pattern format](#learned-pattern-format)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Recurring skip candidates](#recurring-skip-candidates)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Ask by default](#ask-by-default)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Candidate learnings from recent babysits](#candidate-learnings-from-recent-babysits)",
+          "group": "K5"
+        }
+      ]
+    },
+    "skills/huajar-mode/playbooks/autonomous-run.md": {
+      "sentences": [
+        {
+          "sentence": "If the user will step away, list the external commands the run needs before they go: pushes, PR and tracker writes, merges, worktree commands, and plugin commands.",
+          "group": "K2"
+        },
+        {
+          "sentence": "Hand the user one ready-to-paste `permissions.allow` block with a narrow rule for each, such as `Bash(git push *)`, `Bash(gh pr merge *)`, `Bash(git worktree *)`, `Bash(claude plugin *)`, or `mcp__<server>__<tool>` for a tracker write through MCP, and name the settings file it goes in.",
+          "group": "K2"
+        },
+        {
+          "sentence": "Write each rule for the shell tool the run uses, `Bash(...)` or `PowerShell(...)`, because one does not cover the other.",
+          "group": "K2"
+        },
+        {
+          "sentence": "Write each rule in the form the run calls the command, because `Bash(git push *)` does not match `git -C <path> push`.",
+          "group": "K2"
+        },
+        {
+          "sentence": "Do not write the rules yourself with `update-config`, because in auto mode the classifier blocks the agent's own settings edit as self-modification.",
+          "group": "K2"
+        },
+        {
+          "sentence": "The classifier also judges each command on its own.",
+          "group": "K2"
+        },
+        {
+          "sentence": "A chat approval clears a block only when it names the action and its specifics, and it covers that one action.",
+          "group": "K2"
+        },
+        {
+          "sentence": "Writes to protected paths such as `.claude` go to the classifier even when an allow rule matches, so have the user make any settings edit the run needs before they leave.",
+          "group": "K2"
+        },
+        {
+          "sentence": "Do not rely on a prefix deny-glob to fence the run, because a reworded command gets around it.",
+          "group": "K2"
+        }
+      ]
+    },
+    "skills/huajar-mode/playbooks/worktree-cleanup.md": {
+      "sentences": [
+        {
+          "sentence": "Free each path first, because on Windows an open handle makes the removal fail halfway.",
+          "group": "K4"
+        },
+        {
+          "sentence": "If the Herdr app runs, `hc kill` and then `hc rm` every terminal from `hc ls --json` whose `cwd` is inside the path, and count a `not_found` as done.",
+          "group": "K4"
+        },
+        {
+          "sentence": "Stop the processes that you or the worktree's session started there, such as a dev server.",
+          "group": "K4"
+        },
+        {
+          "sentence": "Match by path, never by name.",
+          "group": "K4"
+        },
+        {
+          "sentence": "`hc ls --json` mixes backslash and slash separators and letter case in one listing, so normalize both paths to one separator and, on Windows, one case, and strip a trailing `\\r`, then match the prefix on a path boundary, so `lane-busy` does not match `lane-busy-x`.",
+          "group": "K4"
+        },
+        {
+          "sentence": "In Git Bash, `hc ls --json | jq -r` ends each line with CRLF, so an unstripped `cwd` matches no path.",
+          "group": "K4"
+        },
+        {
+          "sentence": "Then `git worktree remove --force <path>`, and confirm the dir is gone.",
+          "group": "K4"
+        },
+        {
+          "sentence": "If it survives on ignored build artifacts or a handle, free it, `rm -rf` it, then `git worktree prune`.",
+          "group": "K4"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "Per path, `git worktree remove --force <path>`.",
+          "group": "K4"
+        },
+        {
+          "sentence": "If the dir survives on ignored build artifacts, `rm -rf` it, then `git worktree prune`.",
+          "group": "K4"
+        }
+      ]
+    },
+    "skills/huajar-mode/references/local-workers.md": {
+      "whole": "A4"
+    },
+    "skills/huajar-mode/references/cloud-workers.md": {
+      "whole": "A4"
+    },
+    "skills/setup-huajar-stack/SKILL.md": {
+      "whole": "K6"
+    },
+    "skills/huajar-help/SKILL.md": {
+      "whole": "K7"
+    },
+    "skills/create-verification-skill/SKILL.md": {
+      "sentences": [
+        {
+          "sentence": "- **Isolate:** how many instances can run side by side, each with its own port, data dir, and profile?",
+          "group": "K8"
+        },
+        {
+          "sentence": "The answer becomes the `Parallel instances: N` line of the generated skill (see section 2).",
+          "group": "K8"
+        },
+        {
+          "sentence": "When they cannot, say why in the skill: refusing to double-drive a shared instance beats corrupting the user's session.",
+          "group": "K8"
+        },
+        {
+          "sentence": "- **Parallel instances:** one line near the top of the skill body, so a coordinator can read it without parsing prose:",
+          "group": "K8"
+        },
+        {
+          "sentence": "```",
+          "group": "K8"
+        },
+        {
+          "sentence": "Parallel instances: N",
+          "group": "K8"
+        },
+        {
+          "sentence": "```",
+          "group": "K8"
+        },
+        {
+          "sentence": "`N` is how many instances can run at once, each with its own port, data dir, and profile.",
+          "group": "K8"
+        },
+        {
+          "sentence": "Write `1` when they cannot run side by side.",
+          "group": "K8"
+        },
+        {
+          "sentence": "A coordinator verifies with `min(project Local in-flight cap, N)` local workers, and a `verify-<app>` skill without the line verifies one instance at a time.",
+          "group": "K8"
+        },
+        {
+          "sentence": "Launch and Cleanup must work per instance: take the port, data dir, and profile as inputs, and tear down only the instance they started.",
+          "group": "K8"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "- **Isolate:** can two instances run side by side (ports, data dirs, profiles)?",
+          "group": "K8"
+        },
+        {
+          "sentence": "If not, say so in the generated skill: refusing to double-drive a shared instance beats corrupting the user's session.",
+          "group": "K8"
+        }
+      ]
+    },
+    "skills/huajar-help/references/prompting.md": {
+      "sentences": [
+        {
+          "sentence": "- Allow the run's external commands before you leave.",
+          "group": "K9"
+        },
+        {
+          "sentence": "In auto mode a chat approval clears only the one action it names, with its specifics.",
+          "group": "K9"
+        },
+        {
+          "sentence": "Ask the agent to list the pushes, merges, and tracker writes it needs and hand you one ready-to-paste block of narrow `permissions.allow` rules.",
+          "group": "K9"
+        },
+        {
+          "sentence": "Paste it into the settings file the agent names, because in auto mode the classifier blocks the agent's own settings edit.",
+          "group": "K9"
+        },
+        {
+          "sentence": "Each rule must match the shell tool the run uses, `Bash(...)` or `PowerShell(...)`.",
+          "group": "K9"
+        },
+        {
+          "sentence": "Make any settings edit the run needs yourself, because an allow rule does not cover writes under `.claude`.",
+          "group": "K9"
+        },
+        {
+          "sentence": "A prefix deny-glob is easy to get around.",
+          "group": "K9"
+        }
+      ]
+    },
+    "skills/huajar-mode/scripts/worktree-audit.sh": {
+      "whole": "K13"
+    },
+    "skills/huajar-mode/scripts/brief.mjs": {
+      "whole": "K26"
+    },
+    "skills/huajar-mode/scripts/brief.test.ts": {
+      "whole": "K26"
+    },
+    "skills/huajar-mode/scripts/watch-pr/rest.ts": {
+      "whole": "K10"
+    },
+    "skills/huajar-mode/scripts/watch-pr/rest.test.ts": {
+      "whole": "K10"
+    },
+    "skills/huajar-mode/scripts/package.json": {
+      "sentences": [
+        {
+          "sentence": "\"test\": \"bun test watch-pr brief.test.ts\",",
+          "group": "K12"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "\"test\": \"bun test watch-pr\",",
+          "group": "K12"
+        }
+      ]
+    },
+    "skills/huajar-mode/scripts/watch-pr/cli.ts": {
+      "sentences": [
+        {
+          "sentence": "import { RestGitHubReader, SelectingGitHubReader } from \"./rest.ts\";",
+          "group": "K10"
+        },
+        {
+          "sentence": "reader: new SelectingGitHubReader(",
+          "group": "K10"
+        },
+        {
+          "sentence": "new GhGitHubReader(),",
+          "group": "K10"
+        },
+        {
+          "sentence": "new RestGitHubReader()",
+          "group": "K10"
+        },
+        {
+          "sentence": "),",
+          "group": "K10"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "reader: new GhGitHubReader(),",
+          "group": "K10"
+        }
+      ]
+    },
+    "skills/huajar-mode/scripts/watch-pr/github.test.ts": {
+      "sentences": [
+        {
+          "sentence": "it.skipIf(process.platform === \"win32\")(\"requests and parses fork identity from gh before stack discovery\", () => {",
+          "group": "K11"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "it(\"requests and parses fork identity from gh before stack discovery\", () => {",
+          "group": "K11"
+        }
+      ]
+    },
+    "docs/guide/01-setup.md": {
+      "sentences": [
+        {
+          "sentence": "In your shell, run:",
+          "group": "K14"
+        },
+        {
+          "sentence": "```sh",
+          "group": "K14"
+        },
+        {
+          "sentence": "claude plugin marketplace add huajar/huajar-stack",
+          "group": "K14"
+        },
+        {
+          "sentence": "claude plugin install huajar-stack@huajar-stack",
+          "group": "K14"
+        },
+        {
+          "sentence": "Inside a session, the same commands are `/plugin marketplace add …` and `/plugin install …`, which opens the plugin in the `/plugin` panel to install it.",
+          "group": "K14"
+        },
+        {
+          "sentence": "To check it, run `claude plugin list`: it shows `huajar-stack@huajar-stack` as enabled.",
+          "group": "K14"
+        },
+        {
+          "sentence": "[Install plugins](https://code.claude.com/docs/en/plugins/install) has the details.",
+          "group": "K14"
+        },
+        {
+          "sentence": "It writes `~/.claude/rules/huajar-stack-models.md`, a small rule every huajar-stack skill reads.",
+          "group": "K15"
+        },
+        {
+          "sentence": "It also records the Local ceiling, the most full Claude Code sessions your machine runs at once, which setup suggests from your CPUs and memory.",
+          "group": "K15"
+        },
+        {
+          "sentence": "Then it asks for the quota cap, the most full sessions, local and cloud, that one coordinator runs at once, because both draw on the same token quota.",
+          "group": "K15"
+        },
+        {
+          "sentence": "It suggests 2.",
+          "group": "K15"
+        },
+        {
+          "sentence": "Verification runs on the `swarm workers` model.",
+          "group": "K15"
+        },
+        {
+          "sentence": "Set a role to `inherit-parent` or `auto` and it runs on your parent chat model.",
+          "group": "K28"
+        },
+        {
+          "sentence": "Say yes and it writes `.claude/skills/verify-<app>/`, a project-local skill that teaches agents to drive your app the way a user does.",
+          "group": "K17"
+        },
+        {
+          "sentence": "When you invoke `/huajar-stack:huajar-mode`, its `SKILL.md` enters the conversation as one message and [stays there across later turns](https://code.claude.com/docs/en/skills).",
+          "group": "K18"
+        },
+        {
+          "sentence": "After a compaction, only part of it may be re-attached, and older skills can drop, so invoke `/huajar-stack:huajar-mode` again for a new task or after a long session.",
+          "group": "K18"
+        },
+        {
+          "sentence": "The defaults are the same as the `medium` budget.",
+          "group": "K15"
+        },
+        {
+          "sentence": "Every role runs a Claude model at `medium` reasoning.",
+          "group": "K15"
+        },
+        {
+          "sentence": "Code, prose, judgment, and swarm workers run on Opus 5.5.",
+          "group": "K15"
+        },
+        {
+          "sentence": "The review panels mix Fable 5.2, Opus 5.5, and Sonnet 5.5.",
+          "group": "K15"
+        },
+        {
+          "sentence": "`large` raises every role to `xhigh` and `small` lowers it to `low`.",
+          "group": "K15"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "In a Cursor chat, run:",
+          "group": "K14"
+        },
+        {
+          "sentence": "```text",
+          "group": "K14"
+        },
+        {
+          "sentence": "/add-plugin pstack",
+          "group": "K14"
+        },
+        {
+          "sentence": "Cursor confirms the plugin is installed.",
+          "group": "K14"
+        },
+        {
+          "sentence": "In Claude Code, run `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`.",
+          "group": "K25"
+        },
+        {
+          "sentence": "Claude Code prefixes plugin commands, so each command in this guide takes a `pstack:` prefix there, such as `/pstack:setup-pstack`, which writes its model rule to `~/.claude/rules/pstack-models.md`.",
+          "group": "K25"
+        },
+        {
+          "sentence": "The [Claude Code adapter](../harness/claude-code.md) covers the other differences.",
+          "group": "K25"
+        },
+        {
+          "sentence": "It writes `~/.cursor/rules/pstack-models.mdc`, a small rule every pstack skill reads.",
+          "group": "K15"
+        },
+        {
+          "sentence": "Set a role to `inherit-parent` or `auto` and pstack omits the subagent `model` field, so the subagent inherits your parent chat model.",
+          "group": "K28"
+        },
+        {
+          "sentence": "Say yes and it writes `.cursor/skills/verify-<app>/`, a project-local skill that teaches agents to drive your app the way a user does.",
+          "group": "K17"
+        },
+        {
+          "sentence": "To keep `/poteto-mode` on for the whole chat, pick it from the `/` menu with Option+Enter (Mac) or Alt+Enter (Windows) instead of Enter.",
+          "group": "K18"
+        },
+        {
+          "sentence": "That makes it a [Custom Mode](https://cursor.com/docs/skills#using-a-skill-as-a-custom-mode), which stays in context on every turn until you exit it.",
+          "group": "K18"
+        },
+        {
+          "sentence": "Custom Modes are available in the Agents Window and the CLI.",
+          "group": "K18"
+        },
+        {
+          "sentence": "Plain Enter attaches the skill to one message, and it fades as the chat moves on.",
+          "group": "K18"
+        },
+        {
+          "sentence": "The defaults are the same as the `large` budget.",
+          "group": "K15"
+        },
+        {
+          "sentence": "Code, prose, and judgment run on Opus 5.5 at `xhigh` reasoning, and the review panels and swarm workers run at `high`.",
+          "group": "K15"
+        },
+        {
+          "sentence": "`medium` lowers each role one level and `small` lowers it two, and both spend fewer tokens.",
+          "group": "K15"
+        }
+      ]
+    },
+    "docs/guide/02-huajar-mode.md": {
+      "sentences": [
+        {
+          "sentence": "Short works because the playbook holds the structure, and `/huajar-stack:huajar-mode` stays in context on later turns once you invoke it.",
+          "group": "K18"
+        },
+        {
+          "sentence": "[Set up huajar-stack](./01-setup.md#run-your-first-task) shows when to invoke it again.",
+          "group": "K18"
+        },
+        {
+          "sentence": "The cleanest isolation is a Cloud worker, a [`claude --cloud` session](https://code.claude.com/docs/en/claude-code-on-the-web) with its own VM and branch, so it can install dependencies and run checks without touching your machine.",
+          "group": "K19"
+        },
+        {
+          "sentence": "Playbooks that fan out, such as `/huajar-stack:swarm` and Autopilot-full, start their workers as Cloud workers by default.",
+          "group": "K19"
+        },
+        {
+          "sentence": "Your chat stays the coordinator and starts each one from its own `hc` terminal, so open the chat in a Herdr app terminal.",
+          "group": "K19"
+        },
+        {
+          "sentence": "[The cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) holds the launch.",
+          "group": "K19"
+        },
+        {
+          "sentence": "A Cloud worker needs two things, and both fail silently:",
+          "group": "K19"
+        },
+        {
+          "sentence": "- The cloud environment can reach your repository on GitHub.",
+          "group": "K19"
+        },
+        {
+          "sentence": "Without that access, the session gets an uploaded copy and cannot push.",
+          "group": "K19"
+        },
+        {
+          "sentence": "- The huajar-stack plugin is installed and enabled on claude.ai, so it loads in every cloud session.",
+          "group": "K19"
+        },
+        {
+          "sentence": "Before the first Cloud worker of a run, the coordinator starts a short probe session that checks both, and if either fails, it names what is missing and starts the run's workers as Local workers instead.",
+          "group": "K19"
+        },
+        {
+          "sentence": "The quota cap from [setup](./01-setup.md#pick-your-models) limits how many full sessions, local and cloud, run at once.",
+          "group": "K19"
+        },
+        {
+          "sentence": "A fan-out larger than the cap still runs every worker, a few at a time.",
+          "group": "K19"
+        },
+        {
+          "sentence": "The [cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) has the steps.",
+          "group": "K19"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "Short works because the playbook holds the structure, and a Custom Mode keeps `/poteto-mode` in context on every turn.",
+          "group": "K18"
+        },
+        {
+          "sentence": "[Set up pstack](./01-setup.md#run-your-first-task) shows how to start one.",
+          "group": "K18"
+        },
+        {
+          "sentence": "The cleanest isolation is a [cloud subagent](https://cursor.com/docs/subagents#cloud-subagents).",
+          "group": "K19"
+        },
+        {
+          "sentence": "Each one gets its own VM and branch, so it can install dependencies, run your app, and record video of the result without touching your machine.",
+          "group": "K19"
+        },
+        {
+          "sentence": "Type `/in-cloud` before the task, or ask the parent chat to hand work to cloud subagents.",
+          "group": "K19"
+        }
+      ]
+    },
+    "docs/guide/04-design.md": {
+      "sentences": [
+        {
+          "sentence": "A read-only judge, on Opus, scores every candidate against a rubric.",
+          "group": "K20"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "A read-only judge from a different model vendor scores every candidate against a rubric.",
+          "group": "K20"
+        },
+        {
+          "sentence": "When no model from another vendor can run, the coordinator skips the judge and picks the base itself.",
+          "group": "K20"
+        }
+      ]
+    },
+    "docs/guide/05-build-and-clean.md": {
+      "sentences": [
+        {
+          "sentence": "[Verify and ship](./06-verify-and-ship.md#vet-a-measured-number-with-huajar-stackbenchmark-checklist) shows when to type it yourself.",
+          "group": "K21"
+        },
+        {
+          "sentence": "`/huajar-stack:deslop` ships with huajar-stack.",
+          "group": "K22"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "[Verify and ship](./06-verify-and-ship.md#vet-a-measured-number-with-benchmark-checklist) shows when to type it yourself.",
+          "group": "K21"
+        },
+        {
+          "sentence": "`/deslop` ships in the `cursor-team-kit` plugin, not in pstack.",
+          "group": "K22"
+        },
+        {
+          "sentence": "If you don't have it, ask for the same outcome in plain words: remove narrating comments, unsupported guards, dead compatibility paths, and unrelated edits.",
+          "group": "K22"
+        }
+      ]
+    },
+    "docs/guide/06-verify-and-ship.md": {
+      "sentences": [
+        {
+          "sentence": "It writes `.claude/skills/verify-<app>/`, agent-facing instructions with exact Launch, Doctor, Drive, Evidence, and Cleanup sections, a Helpers section for any script it ships, plus a feature map under `features/` that indexes what the app does and what result proves each feature works.",
+          "group": "K17"
+        },
+        {
+          "sentence": "Claude Code also bundles [`/run`, `/verify`, and `/run-skill-generator`](https://code.claude.com/docs/en/skills#run-and-verify-your-app).",
+          "group": "K23"
+        },
+        {
+          "sentence": "`/run` launches and drives your app to see a change working, and `/verify` builds and runs it to confirm a change does what it should, without falling back to tests.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Both infer the launch from your project, and `/run-skill-generator` records a launch that needs more, like a database or an env file, as a skill at `.claude/skills/run-<name>/` that they follow from then on.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Reach for them to check one change.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Reach for `verify-<app>` when the proof has to cover the feature map, run in parallel instances, or keep its evidence.",
+          "group": "K23"
+        },
+        {
+          "sentence": "If the repo already has a `run-<name>` skill, `/huajar-stack:create-verification-skill` launches the app with it instead of writing its own launch steps.",
+          "group": "K23"
+        },
+        {
+          "sentence": "One difference shows at commit time.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Right before each commit that changes more than docs or tests, Claude Code has Claude run a skill named exactly `verify` or `simplify`, when one is in place at the start of the session and Claude can invoke it.",
+          "group": "K23"
+        },
+        {
+          "sentence": "A bundled skill, a plugin skill, and a skill from your claude.ai account don't count ([docs](https://code.claude.com/docs/en/skills#run-your-checks-before-each-commit)).",
+          "group": "K23"
+        },
+        {
+          "sentence": "A `verify-<app>` skill never runs then, so name it in the prompt, as above.",
+          "group": "K23"
+        },
+        {
+          "sentence": "The skill that `/verify` records at `.claude/skills/verify/SKILL.md` in the repo root does count.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Run this at least once a day, ideally from a [Desktop scheduled task](https://code.claude.com/docs/en/desktop-scheduled-tasks) so nobody has to remember.",
+          "group": "K23"
+        },
+        {
+          "sentence": "It runs on your machine, where huajar-stack is installed.",
+          "group": "K23"
+        },
+        {
+          "sentence": "A cloud routine doesn't load your plugins:",
+          "group": "K23"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "It writes `.cursor/skills/verify-<app>/`, agent-facing instructions with exact Launch, Doctor, Drive, Evidence, and Cleanup sections, a Helpers section for any script it ships, plus a feature map under `features/` that indexes what the app does and what result proves each feature works.",
+          "group": "K17"
+        },
+        {
+          "sentence": "Run this at least once a day, ideally from a scheduled automation so nobody has to remember:",
+          "group": "K23"
+        },
+        {
+          "sentence": "## Show the behavior as a statechart",
+          "group": "K27"
+        },
+        {
+          "sentence": "A counterexample in model terms convinces you.",
+          "group": "K27"
+        },
+        {
+          "sentence": "The PM or designer who owns the behavior needs to see it in their terms.",
+          "group": "K27"
+        },
+        {
+          "sentence": "Run:",
+          "group": "K27"
+        },
+        {
+          "sentence": "```text",
+          "group": "K27"
+        },
+        {
+          "sentence": "/statechart what the user sees when they edit a note offline",
+          "group": "K27"
+        },
+        {
+          "sentence": "```",
+          "group": "K27"
+        },
+        {
+          "sentence": "[`/statechart`](../../skills/statechart/SKILL.md) draws a Mermaid statechart of what the user sees, generated from a TLA+ model, so the picture and the checked model can't drift apart.",
+          "group": "K27"
+        },
+        {
+          "sentence": "The reader's rules (\"you never see Synced while you're offline\") become invariants.",
+          "group": "K27"
+        },
+        {
+          "sentence": "The chart marks each state that breaks a rule, and the report gives the shortest path to it in the reader's words.",
+          "group": "K27"
+        },
+        {
+          "sentence": "Before the hand-off, the agent reproduces each bug path in the real code, so a modeling error doesn't reach the reader as a bug.",
+          "group": "K27"
+        }
+      ]
+    },
+    "docs/guide/07-overnight.md": {
+      "sentences": [
+        {
+          "sentence": "It's a checkable finish condition, an isolated worktree or Cloud worker, and a decision log you audit in the morning.",
+          "group": "K19"
+        },
+        {
+          "sentence": "- `/loop` is Claude Code's built-in wake mechanism, a [bundled skill](https://code.claude.com/docs/en/scheduled-tasks), not a huajar-stack skill.",
+          "group": "K23"
+        },
+        {
+          "sentence": "\"don't ask me before committing\" stops the agent from asking, but it doesn't stop Claude Code.",
+          "group": "K23"
+        },
+        {
+          "sentence": "In [auto mode](https://code.claude.com/docs/en/permission-modes), a classifier judges each command on its own.",
+          "group": "K23"
+        },
+        {
+          "sentence": "An approval you give in chat clears a block only when it names the action and its specifics, and it covers that one action, so a later push, merge, or tracker write can still be denied while you sleep.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Before you leave, ask the agent to list the external commands the run needs and hand you one ready-to-paste block of narrow [`permissions.allow` rules](https://code.claude.com/docs/en/permissions), such as `Bash(gh pr create *)`.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Paste it into the settings file the agent names.",
+          "group": "K23"
+        },
+        {
+          "sentence": "The agent can't write it for you, because the classifier blocks its own settings edit.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Each rule must match the shell tool the run uses, `Bash(...)` or `PowerShell(...)`.",
+          "group": "K23"
+        },
+        {
+          "sentence": "An allow rule does not cover writes under `.claude`, so make any settings edit the run needs yourself before you go.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Don't count on a prefix deny-glob to fence the run.",
+          "group": "K23"
+        },
+        {
+          "sentence": "A reworded command gets around it.",
+          "group": "K23"
+        },
+        {
+          "sentence": "To stop a run on purpose, tell the agent to pause, or that you're about to go offline or restart Claude Code.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Autopilot-full and Autopilot-stack start their workers and verifiers as Cloud workers by default, `claude --cloud` sessions that the coordinator launches from `hc` terminals, per [the cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md).",
+          "group": "K19"
+        },
+        {
+          "sentence": "The coordinator stays in your chat in a Herdr app terminal, so leave the machine running and the Herdr app open.",
+          "group": "K19"
+        },
+        {
+          "sentence": "Before the first Cloud worker, the run checks that the cloud environment can reach the repository and that huajar-stack is enabled on claude.ai, and stops the cloud path if either is missing.",
+          "group": "K19"
+        },
+        {
+          "sentence": "The quota cap from [setup](./01-setup.md#pick-your-models) limits how many full sessions run at once, local and cloud, and the rest wait their turn.",
+          "group": "K19"
+        },
+        {
+          "sentence": "Work that needs this machine runs as Local workers.",
+          "group": "K19"
+        },
+        {
+          "sentence": "[Route work through `/huajar-stack:huajar-mode`](./02-huajar-mode.md#give-parallel-work-its-own-machine) covers the setup.",
+          "group": "K19"
+        },
+        {
+          "sentence": "A [Claude Code Project](https://code.claude.com/docs/en/claude-projects) gives one coordinator agent a persistent conversation.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Projects are in public beta on Pro and Max plans, and they run at claude.ai/code, in the desktop app, and in the mobile app, not in the terminal CLI.",
+          "group": "K23"
+        },
+        {
+          "sentence": "It directs threads, which run in the cloud by default, so the work continues when your laptop is closed.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Add huajar-stack in **Project settings > Plugins**, so each cloud thread loads it, and ask the coordinator to start each thread with `/huajar-stack:huajar-mode`, so the threads follow the playbooks.",
+          "group": "K23"
+        },
+        {
+          "sentence": "- Move related cloud sessions into the Project with **Move to project**, finished ones included.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Claude reads each one, and what you ask it to remember goes to project memory, which every new cloud thread reads.",
+          "group": "K23"
+        },
+        {
+          "sentence": "A [routine](https://code.claude.com/docs/en/routines), which runs a saved prompt on a schedule, on an API call, or on a GitHub event, removes that step.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Before the skill hands back its summary, it spawns a reviewer on Opus to read the trail and the transcript, and the reply ends with an Attention section listing what deserves your scrutiny.",
+          "group": "K20"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "It's a checkable finish condition, an isolated worktree or cloud agent, and a decision log you audit in the morning.",
+          "group": "K19"
+        },
+        {
+          "sentence": "- `/loop` is Cursor's built-in wake mechanism, not a pstack skill.",
+          "group": "K23"
+        },
+        {
+          "sentence": "To stop a run on purpose, tell the agent to pause, or that you're about to go offline or restart Cursor.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Before the skill hands back its summary, it spawns a reviewer on a different model family to read the trail and the transcript, and the reply ends with an Attention section listing what deserves your scrutiny.",
+          "group": "K20"
+        },
+        {
+          "sentence": "A [Cursor Project](https://cursor.com/blog/projects) gives one coordinator agent a persistent thread.",
+          "group": "K23"
+        },
+        {
+          "sentence": "It directs subagents, which run in the cloud by default, so the work continues when your laptop is closed.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Start your prompts to the coordinator with `/poteto-mode`, and the subagents it spawns follow the playbooks.",
+          "group": "K23"
+        },
+        {
+          "sentence": "- Drag related chats into the Project, finished ones included.",
+          "group": "K23"
+        },
+        {
+          "sentence": "They become context for every agent in it.",
+          "group": "K23"
+        },
+        {
+          "sentence": "A scheduled or event-driven automation removes that step.",
+          "group": "K23"
+        },
+        {
+          "sentence": "pstack ships this as a dormant [automation pack](https://github.com/cursor/plugins/blob/main/pstack/automations/benny/README.md) for Slack issue reports.",
+          "group": "K27"
+        },
+        {
+          "sentence": "One automation triages each report.",
+          "group": "K27"
+        },
+        {
+          "sentence": "The other reproduces confirmed bugs and may prepare a small draft fix.",
+          "group": "K27"
+        },
+        {
+          "sentence": "Point an agent at its [`FOR_AGENTS.md`](https://github.com/cursor/plugins/blob/main/pstack/automations/benny/FOR_AGENTS.md) and name the target repository to set it up.",
+          "group": "K27"
+        }
+      ]
+    },
+    "docs/guide/08-principles.md": {
+      "sentences": [
+        {
+          "sentence": "[`/huajar-stack:correct`](../../skills/correct/SKILL.md) applies it to a whole repo, as shown in [Make it yours](./09-make-it-yours.md#fix-the-environment-with-huajar-stackcorrect).",
+          "group": "K21"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "[`/correct`](../../skills/correct/SKILL.md) applies it to a whole repo, as shown in [Make it yours](./09-make-it-yours.md#fix-the-environment-with-correct).",
+          "group": "K21"
+        }
+      ]
+    },
+    "docs/guide/09-make-it-yours.md": {
+      "sentences": [
+        {
+          "sentence": "It drafts `.claude/skills/<your-name>-mode/SKILL.md` following Claude Code's [skill docs](https://code.claude.com/docs/en/skills) and Anthropic's [skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices), runs the draft through [`/huajar-stack:unslop`](../../skills/unslop/SKILL.md), and opens a PR from a worktree so you review it like any other change.",
+          "group": "K17"
+        },
+        {
+          "sentence": "Writing a skill matches the [Authoring or modifying a skill playbook](../../skills/huajar-mode/playbooks/authoring-a-skill.md), which follows Claude Code's [skill docs](https://code.claude.com/docs/en/skills) and Anthropic's [skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices), validates the frontmatter and links, and ships the result through the Opening a PR playbook.",
+          "group": "K17"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "It drafts `.cursor/skills/<your-name>-mode/SKILL.md` through Cursor's built-in `create-skill` flow, runs the draft through [`/unslop`](../../skills/unslop/SKILL.md), and opens a PR from a worktree so you review it like any other change.",
+          "group": "K17"
+        },
+        {
+          "sentence": "Writing a skill matches the [Authoring or modifying a skill playbook](../../skills/poteto-mode/playbooks/authoring-a-skill.md), which routes through Cursor's built-in `create-skill`, validates the frontmatter and links, and ships the result through the Opening a PR playbook.",
+          "group": "K17"
+        },
+        {
+          "sentence": "## Build a bot UI with `/make-bot-ui`",
+          "group": "K27"
+        },
+        {
+          "sentence": "One situational skill is for Grok Bot users.",
+          "group": "K27"
+        },
+        {
+          "sentence": "[`/make-bot-ui`](../../skills/make-bot-ui/SKILL.md) builds a small page whose buttons wake a bot over a webhook routine.",
+          "group": "K27"
+        },
+        {
+          "sentence": "For example, you could swipe through a review queue and have each swipe ask the bot to act on that item.",
+          "group": "K27"
+        },
+        {
+          "sentence": "A server on your machine holds the webhook's sender key, so the key never reaches the browser or the chat.",
+          "group": "K27"
+        },
+        {
+          "sentence": "The skill also covers exposing the page on Tailscale.",
+          "group": "K27"
+        }
+      ]
+    },
+    "docs/guide/10-recipes-and-pitfalls.md": {
+      "sentences": [
+        {
+          "sentence": "Here the answer is that the mode stays in context across turns until a [compaction](https://code.claude.com/docs/en/skills#skill-content-lifecycle) drops part of it, so invoke `/huajar-stack:huajar-mode` again for a new task or after a long session.",
+          "group": "K18"
+        },
+        {
+          "sentence": "Run them as [Cloud workers](./02-huajar-mode.md#give-parallel-work-its-own-machine), or say \"own worktree per attempt\".",
+          "group": "K19"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "Run them as cloud agents, or say \"own worktree per attempt\".",
+          "group": "K19"
+        }
+      ]
+    },
+    "docs/guide/README.md": {
+      "sentences": [
+        {
+          "sentence": "The pictures come from pstack, the plugin huajar-stack builds on.",
+          "group": "K24"
+        },
+        {
+          "sentence": "The `/poteto-mode` drawn on a board is `/huajar-stack:huajar-mode`, and a skill drawn with no prefix, such as `/how`, is typed `/huajar-stack:how`.",
+          "group": "K24"
+        },
+        {
+          "sentence": "`/loop` is Claude Code's own command, so you type it as drawn.",
+          "group": "K24"
+        }
+      ]
+    },
+    "skills/typescript-best-practices/references/patterns.md": {
+      "sentences": [
+        {
+          "sentence": "## Contents",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Branded types](#branded-types)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Discriminated unions](#discriminated-unions)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Constructive modeling](#constructive-modeling)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Simplest total type](#simplest-total-type)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [`unknown` over `any`](#unknown-over-any)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Schemas before hand-rolled guards](#schemas-before-hand-rolled-guards)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [No `as` casts](#no-as-casts)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Narrowing hierarchy](#narrowing-hierarchy)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Type guards](#type-guards)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Exhaustiveness](#exhaustiveness)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [`satisfies` over `as`](#satisfies-over-as)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Boundary validation](#boundary-validation)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Schema-derived types](#schema-derived-types)",
+          "group": "K5"
+        },
+        {
+          "sentence": "- [Object args](#object-args)",
+          "group": "K5"
+        }
+      ]
+    },
+    "skills/create-formal-verification-skill/SKILL.md": {
+      "dropped": [
+        {
+          "sentence": "If the check is a TLA+ model, tell the next agent to read every result with the pstack [`/statechart`](../statechart/SKILL.md) skill.",
+          "group": "K27"
+        },
+        {
+          "sentence": "It shows each invariant violation the checker finds as its shortest path in plain words.",
+          "group": "K27"
+        },
+        {
+          "sentence": "When the check passes, `/statechart` draws a chart of how the system moves between states.",
+          "group": "K27"
+        },
+        {
+          "sentence": "Refer to `/statechart` by name.",
+          "group": "K27"
+        },
+        {
+          "sentence": "Its commands, options, and file paths change between releases and machines, so copy none of them into the generated skill or its scripts.",
+          "group": "K27"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "huajar-stack",
+  "description": "Marketplace for huajar-stack, a Claude Code mode that matches each task to a playbook.",
+  "owner": {
+    "name": "Rodrigo Huajamaita",
+    "url": "https://github.com/huajar"
+  },
+  "plugins": [
+    {
+      "name": "huajar-stack",
+      "source": "./"
+    }
+  ]
+}

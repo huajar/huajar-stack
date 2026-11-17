@@ -1,0 +1,11 @@
+{
+  "name": "huajar-stack",
+  "version": "1.14.0",
+  "description": "A Claude Code mode that matches each task to a playbook, with the skills and subagents the playbooks call.",
+  "author": {
+    "name": "Rodrigo Huajamaita",
+    "url": "https://github.com/huajar"
+  },
+  "license": "MIT",
+  "icon": "./assets/logo.svg"
+}

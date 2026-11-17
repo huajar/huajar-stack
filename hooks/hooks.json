@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sed '/^## Paths/,$d' \"${CLAUDE_PLUGIN_ROOT}/docs/harness/claude-code.md\""
+          },
+          {
+            "type": "command",
+            "command": "sed -n '/^## Paths/,$p' \"${CLAUDE_PLUGIN_ROOT}/docs/harness/claude-code.md\""
+          }
+        ]
+      }
+    ]
+  }
+}
