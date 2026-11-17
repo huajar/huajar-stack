@@ -2,7 +2,7 @@
 
 # huajar-stack
 
-huajar-stack is a Claude Code plugin that runs each task to a check. You give it a goal and a check that can pass or fail. Its mode, huajar-mode, picks the playbook that fits the task, runs the steps with skills and subagents, and reports with the evidence.
+huajar-stack is a Claude Code plugin that runs each task to a check. You give it a goal and a check that can pass or fail. Its mode, huajar-mode, picks the playbook that fits the task, runs the steps with skills and subagents, and reports with the evidence. When a task fans out, it starts parallel workers from the Herdr app, each in its own terminal and worktree, on this machine or in Claude's cloud.
 
 ## Install
 
@@ -36,7 +36,7 @@ Claude Code. Some playbooks also call these tools:
 - [Bun](https://bun.com/docs/installation), for `watch-pr`
 - [jq](https://jqlang.org/download/), for `worktree-audit.sh`
 - `gh`, the GitHub CLI, for both
-- the Herdr app, with `hc` on `PATH`, for parallel workers. Open the session in a Herdr app terminal.
+- the Herdr app, with `hc` on `PATH`, for parallel workers. Open the session in a Herdr app terminal, and the mode starts, watches, and cleans up each worker there.
 
 ## For agents
 
@@ -58,4 +58,4 @@ docs/guide/                   the guide
 
 ## Credits
 
-huajar-stack builds on [pstack](https://github.com/cursor/plugins/tree/2f87c854fe3e2fcda44ca86b46ede35aad3c46b7/pstack) by Lauren Tan ([@poteto](https://x.com/poteto)), and follows it at a pinned commit, `2f87c85`. Files taken from pstack and its companion plugin cursor-team-kit keep their MIT notices in [LICENSE](LICENSE).
+huajar-stack builds on [pstack](https://github.com/cursor/plugins/tree/2f87c854fe3e2fcda44ca86b46ede35aad3c46b7/pstack) by Lauren Tan ([@poteto](https://x.com/poteto)), and follows it at a pinned commit, `2f87c85`. It runs its parallel workers on the Herdr app and its `hc` CLI. Files taken from pstack and its companion plugin cursor-team-kit keep their MIT notices in [LICENSE](LICENSE).
