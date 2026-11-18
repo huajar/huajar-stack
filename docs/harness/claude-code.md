@@ -111,6 +111,5 @@ These pstack pieces are not in huajar-stack. When a step needs one, skip it with
 
 | pstack | Reason |
 | --- | --- |
-| The `statechart` skill | No concrete use yet. |
 | The `make-bot-ui` skill | No concrete use yet. |
 | The benny automation pack, `automations/benny` | It runs on a review bot, and huajar-stack ships none. |
