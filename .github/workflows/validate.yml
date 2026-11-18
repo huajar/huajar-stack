@@ -27,6 +27,8 @@ jobs:
         run: node .github/scripts/check-reference.mjs --reference "$RUNNER_TEMP/reference" --checks reference
       - name: Keep map rows, the model defaults, and the text they copy in step
         run: node .github/scripts/check-reference.mjs --checks map
+      - name: Map every Cursor path the shipped text names
+        run: node .github/scripts/check-cursor-paths.mjs
       - name: Keep the map under the hook output cap
         run: |
           status=0

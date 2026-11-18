@@ -53,7 +53,7 @@ agents/                       huajar-agent, which every delegate runs as, and co
 hooks/hooks.json              prints the map into every session
 docs/harness/claude-code.md   the map
 docs/guide/                   the guide
-.github/                      CI, and the check that keeps files taken from pstack in line with it
+.github/                      CI, the check that keeps files taken from pstack in line with it, and the Cursor path check
 ```
 
 ## Credits

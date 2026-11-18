@@ -38,6 +38,24 @@ node .github/scripts/check-reference.mjs --reference <clone> --checks reference,
 
 To move the Reference to a later pstack commit, change the commit everywhere it appears (`adaptations.json`, `map-copies.json`, `sync-reference.mjs`, the map, and `.github/workflows/validate.yml`), sync the changed files, and update their entries in one pull request.
 
+## Rules and what enforces them
+
+When the operator corrects a mistake, fix it and add its rule here. A rule that nothing enforces and that breaks again moves up to a check in the same change. Drop a rule once its mistake can't happen.
+
+| Rule | Enforced by |
+| --- | --- |
+| A file taken from pstack differs from the Reference only by listed Adaptations. | `check-reference.mjs --checks reference` |
+| Map rows, the model defaults, and the text they copy stay in step. | `check-reference.mjs --checks map` |
+| Every Cursor path in `skills/`, `agents/`, `hooks/`, or `docs/guide/` has a row in the map that translates it. | `check-cursor-paths.mjs` |
+| The map fits under the hook output cap. | the hook output step in `validate.yml` |
+| The docs use the Herdr app and `hc`, never herdr 0.9 commands. | the herdr 0.9 step in `validate.yml` |
+| Outside a `SKILL.md`, the session id is `$CLAUDE_CODE_SESSION_ID`. | the session id step in `validate.yml` |
+| A terminal the plugin starts carries no space label. | the space label step in `validate.yml` |
+| A script change keeps its tests passing. | `bun test` in `validate.yml` |
+| A sentence about how `hc`, git, or Claude Code behaves comes from a run, a test, or the tool's docs. | Nothing. It is a judgment call, and CI has no `hc`. |
+| A change to a flow or a default first reads how pstack does it, and the PR's `## Why` names that pstack file. | Nothing. A proposal is not a file diff. |
+| Shipped files name no project, local path, or account, and README.md's layout matches what ships. | Review, per [REVIEW.md](REVIEW.md). |
+
 ## Workflow
 
 - Work on a branch created from `main`, in its own git worktree.
