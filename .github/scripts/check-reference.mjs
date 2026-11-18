@@ -1,5 +1,5 @@
 // Guards each file moved from pstack against the Reference, in both directions, and each copy in map-copies.json against the text it copies.
-// Usage: node .github/scripts/check-reference.mjs --reference <cursor/plugins clone> [--checks reference,toc,map]
+// Usage: node .github/scripts/check-reference.mjs --reference <cursor/plugins clone> [--checks reference,map]
 // The clone holds the commit of adaptations.json's "reference".
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
@@ -20,7 +20,7 @@ const RENAMES = [
   [/huajar-stack/g, "pstack"],
 ];
 
-const { values } = parseArgs({ options: { reference: { type: "string" }, checks: { type: "string", default: "reference,toc" } } });
+const { values } = parseArgs({ options: { reference: { type: "string" }, checks: { type: "string", default: "reference" } } });
 const checks = values.checks.split(",");
 const read = (path) => readFileSync(path, "utf8").replace(/\r\n/g, "\n");
 const failures = [];
@@ -119,35 +119,6 @@ if (checks.includes("reference")) {
     flush();
     for (const [op, list] of [[1, "sentences"], [-1, "dropped"]]) {
       for (const { sentence } of unused[op]) failures.push(`${file}: "${list}" entry that the diff with the Reference does not use\n  ${sentence}`);
-    }
-  }
-}
-
-if (checks.includes("toc")) {
-  const slug = (h) => h.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s/g, "-");
-  for (const skill of readdirSync(join(REPO, "skills"))) {
-    const dir = join(REPO, "skills", skill, "references");
-    if (!existsSync(dir)) continue;
-    for (const f of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
-      const file = `skills/${skill}/references/${f}`;
-      const lines = read(join(dir, f)).trimEnd().split("\n");
-      if (lines.length <= 100) continue;
-      let fenced = false;
-      const anchors = [];
-      for (const l of lines) {
-        if (l.startsWith("```")) fenced = !fenced;
-        else if (!fenced && l.startsWith("## ") && l !== "## Contents") anchors.push(slug(l.slice(3)));
-      }
-      const start = lines.slice(0, 15).indexOf("## Contents");
-      const links = [];
-      for (let i = start + 1; start >= 0 && i < lines.length; i++) {
-        const link = lines[i].match(/^- \[.+\]\(#(.+)\)$/);
-        if (link) links.push(link[1]);
-        else if (lines[i] !== "" || links.length) break;
-      }
-      if (start < 0 || links.join() !== anchors.join()) {
-        failures.push(`${file}: ${lines.length} lines and no table of contents in its first 15 lines (a "## Contents" list linking each ## heading in order)`);
-      }
     }
   }
 }

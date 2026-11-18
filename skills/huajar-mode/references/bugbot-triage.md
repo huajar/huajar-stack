@@ -2,14 +2,6 @@
 
 Use this reference when the Babysit playbook (`../playbooks/babysit.md`) handles Bugbot or review-automation comments. The goal is not to ignore Bugbot by default. The goal is to stop treating every comment as a required code change.
 
-## Contents
-
-- [Decision rubric](#decision-rubric)
-- [Learned pattern format](#learned-pattern-format)
-- [Recurring skip candidates](#recurring-skip-candidates)
-- [Ask by default](#ask-by-default)
-- [Candidate learnings from recent babysits](#candidate-learnings-from-recent-babysits)
-
 ## Decision rubric
 
 Classify each Bugbot thread before acting:

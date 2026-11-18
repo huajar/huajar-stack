@@ -3,7 +3,6 @@
   "groups": {
     "K1": "Claude Code reads the agent frontmatter field `background`, not `is_background`.",
     "A1": "Identity rename. huajar-stack is its own plugin.",
-    "K5": "CI requires a contents list in a reference over 100 lines.",
     "K2": "The map cannot express this step: the run needs `permissions.allow` rules before the user steps away.",
     "K4": "The map cannot express this step: on Windows an open handle makes the worktree removal fail halfway.",
     "A4": "huajar-stack's own reference for workers through herdr. pstack has no counterpart.",
@@ -85,34 +84,6 @@
         {
           "sentence": "# Poteto mode",
           "group": "A1"
-        }
-      ]
-    },
-    "skills/huajar-mode/references/bugbot-triage.md": {
-      "sentences": [
-        {
-          "sentence": "## Contents",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Decision rubric](#decision-rubric)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Learned pattern format](#learned-pattern-format)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Recurring skip candidates](#recurring-skip-candidates)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Ask by default](#ask-by-default)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Candidate learnings from recent babysits](#candidate-learnings-from-recent-babysits)",
-          "group": "K5"
         }
       ]
     },
@@ -1040,70 +1011,6 @@
         {
           "sentence": "`/loop` is Claude Code's own command, so you type it as drawn.",
           "group": "K24"
-        }
-      ]
-    },
-    "skills/typescript-best-practices/references/patterns.md": {
-      "sentences": [
-        {
-          "sentence": "## Contents",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Branded types](#branded-types)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Discriminated unions](#discriminated-unions)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Constructive modeling](#constructive-modeling)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Simplest total type](#simplest-total-type)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [`unknown` over `any`](#unknown-over-any)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Schemas before hand-rolled guards](#schemas-before-hand-rolled-guards)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [No `as` casts](#no-as-casts)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Narrowing hierarchy](#narrowing-hierarchy)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Type guards](#type-guards)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Exhaustiveness](#exhaustiveness)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [`satisfies` over `as`](#satisfies-over-as)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Boundary validation](#boundary-validation)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Schema-derived types](#schema-derived-types)",
-          "group": "K5"
-        },
-        {
-          "sentence": "- [Object args](#object-args)",
-          "group": "K5"
         }
       ]
     },
