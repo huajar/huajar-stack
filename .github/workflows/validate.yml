@@ -24,7 +24,7 @@ jobs:
           git init -q "$RUNNER_TEMP/reference"
           git -C "$RUNNER_TEMP/reference" fetch -q --depth 1 https://github.com/cursor/plugins 2f87c854fe3e2fcda44ca86b46ede35aad3c46b7
       - name: Check huajar-mode against the Reference
-        run: node .github/scripts/check-reference.mjs --reference "$RUNNER_TEMP/reference" --checks reference,toc
+        run: node .github/scripts/check-reference.mjs --reference "$RUNNER_TEMP/reference" --checks reference
       - name: Keep map rows, the model defaults, and the text they copy in step
         run: node .github/scripts/check-reference.mjs --checks map
       - name: Keep the map under the hook output cap

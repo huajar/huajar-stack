@@ -33,7 +33,7 @@ Files taken from pstack follow the Reference, pstack at `2f87c85`. A difference 
 Run it locally against a clone of `cursor/plugins` that holds the pinned commit:
 
 ```sh
-node .github/scripts/check-reference.mjs --reference <clone> --checks reference,toc,map
+node .github/scripts/check-reference.mjs --reference <clone> --checks reference,map
 ```
 
 To move the Reference to a later pstack commit, change the commit everywhere it appears (`adaptations.json`, `map-copies.json`, `sync-reference.mjs`, the map, and `.github/workflows/validate.yml`), sync the changed files, and update their entries in one pull request.

@@ -2,23 +2,6 @@
 
 Code examples for each rule in `SKILL.md`. The underlying principles are language-agnostic. See the **type-system-discipline** and **boundary-discipline** principle skills.
 
-## Contents
-
-- [Branded types](#branded-types)
-- [Discriminated unions](#discriminated-unions)
-- [Constructive modeling](#constructive-modeling)
-- [Simplest total type](#simplest-total-type)
-- [`unknown` over `any`](#unknown-over-any)
-- [Schemas before hand-rolled guards](#schemas-before-hand-rolled-guards)
-- [No `as` casts](#no-as-casts)
-- [Narrowing hierarchy](#narrowing-hierarchy)
-- [Type guards](#type-guards)
-- [Exhaustiveness](#exhaustiveness)
-- [`satisfies` over `as`](#satisfies-over-as)
-- [Boundary validation](#boundary-validation)
-- [Schema-derived types](#schema-derived-types)
-- [Object args](#object-args)
-
 ## Branded types
 
 Brand primitives so they can't be mixed up. Validate once at the boundary. Downstream code trusts the type.
