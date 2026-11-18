@@ -44,7 +44,7 @@ When the operator corrects a mistake, fix it and add its rule here. A rule that 
 
 | Rule | Enforced by |
 | --- | --- |
-| A file taken from pstack differs from the Reference only by listed Adaptations. | `check-reference.mjs --checks reference,toc` |
+| A file taken from pstack differs from the Reference only by listed Adaptations. | `check-reference.mjs --checks reference` |
 | Map rows, the model defaults, and the text they copy stay in step. | `check-reference.mjs --checks map` |
 | Every Cursor path in `skills/`, `agents/`, `hooks/`, or `docs/guide/` has a row in the map that translates it. | `check-cursor-paths.mjs` |
 | The map fits under the hook output cap. | the hook output step in `validate.yml` |
