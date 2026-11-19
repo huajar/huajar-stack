@@ -1,4 +1,6 @@
 // Fails when shipped text names a Cursor path that no row of the Claude Code map translates.
+// A Markdown file passes with a map row, since the agent reading it also reads the map.
+// Any other file fails on every Cursor path, since a script runs without the map.
 // Usage: node .github/scripts/check-cursor-paths.mjs [repo root]
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
@@ -19,17 +21,22 @@ const prefixes = readFileSync(join(root, MAP), "utf8")
 
 const files = execFileSync("git", ["-C", root, "ls-files", "skills", "agents", "hooks", "docs/guide"], { encoding: "utf8" })
 	.split("\n")
-	.filter((f) => f.endsWith(".md"));
+	.filter(Boolean);
 
 let failed = 0;
 for (const file of files) {
-	readFileSync(join(root, file), "utf8").split("\n").forEach((text, i) => {
-		for (const [hit] of text.matchAll(HIT)) {
-			if (prefixes.some((p) => normalize(hit).startsWith(p))) continue;
+	const text = readFileSync(join(root, file), "utf8");
+	if (text.includes("\0")) continue;
+	const prose = file.endsWith(".md");
+	text.split("\n").forEach((line, i) => {
+		for (const [hit] of line.matchAll(HIT)) {
+			if (prose && prefixes.some((p) => normalize(hit).startsWith(p))) continue;
 			failed++;
-			console.log(`::error file=${file},line=${i + 1}::${hit} is a Cursor path that no row of ${MAP} maps. Add a row to its Paths table, or write the Claude Code path.`);
+			console.log(prose
+				? `::error file=${file},line=${i + 1}::${hit} is a Cursor path that no row of ${MAP} maps. Add a row to its Paths table, or write the Claude Code path.`
+				: `::error file=${file},line=${i + 1}::${hit} is a Cursor path in a file that runs without ${MAP}. Write the Claude Code path.`);
 		}
 	});
 }
-console.log(failed ? `${failed} unmapped Cursor path(s).` : `Every Cursor path in ${files.length} files has a map row.`);
+console.log(failed ? `${failed} unmapped Cursor path(s).` : `No unmapped Cursor path in ${files.length} files.`);
 process.exit(failed ? 1 : 0);
