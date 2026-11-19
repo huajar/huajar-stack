@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { configText } from "../backends/cfg.ts";
 import { readConfig } from "../frontends/config.ts";
 import { type Checks, readChecks } from "../frontends/spec.ts";
+import { removeDir } from "../run.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const skip = !process.env.TLA2TOOLS && "set TLA2TOOLS to the path of tla2tools.jar to run TLC";
@@ -199,7 +200,7 @@ test(
   { skip },
   (t) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), "statechart-config-fuzz-"));
-    t.after(() => fs.rmSync(dir, { recursive: true, maxRetries: 10, retryDelay: 400 }));
+    t.after(() => removeDir(dir));
     const random = mulberry32(SEED);
     const cases: {
       i: number;

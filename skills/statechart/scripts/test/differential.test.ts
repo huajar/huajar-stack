@@ -6,6 +6,7 @@ import path from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import fc from "fast-check";
+import { removeDir } from "../run.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const skip = !process.env.TLA2TOOLS && "set TLA2TOOLS to the path of tla2tools.jar to run TLC";
@@ -391,7 +392,7 @@ async function answer(c: Case) {
     assert.deepEqual(compilerAnswers(compiled, c), plain);
     return compiled.stdout;
   } finally {
-    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
+    removeDir(dir);
   }
 }
 

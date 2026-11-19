@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { killGroup, messageOf } from "./run.ts";
+import { killGroup, messageOf, removeDir } from "./run.ts";
 
 const USAGE = `Usage: statechart SPEC.tla [--config FILE] [--view FILE] [--out DIR]
 
@@ -120,7 +120,7 @@ try {
             process.execPath,
             [
               "-e",
-              'const [pid, ...dirs] = process.argv.slice(-3); process.stdin.on("end", () => { require("node:child_process").spawnSync("taskkill", ["/PID", pid, "/T", "/F"], { windowsHide: true }); for (const d of dirs) require("node:fs").rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 }); }).resume();',
+              'const [pid, ...dirs] = process.argv.slice(-3); process.stdin.on("end", () => { require("node:child_process").spawnSync("taskkill", ["/PID", pid, "/T", "/F"], { windowsHide: true }); for (const d of dirs) require("node:fs").promises.rm(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 }); }).resume();',
               ...cleanup,
             ],
             { detached: true, stdio: ["pipe", "ignore", "ignore"] },
@@ -165,8 +165,8 @@ try {
       exitCode = verdict;
     } else exitCode = 2;
   } finally {
-    fs.rmSync(stage, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
-    if (tmp) fs.rmSync(tmp, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
+    removeDir(stage);
+    if (tmp) removeDir(tmp);
     janitor?.kill("SIGKILL");
   }
   process.exit(exitCode);

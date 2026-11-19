@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { PINNED_FLAGS } from "../run.ts";
+import { PINNED_FLAGS, removeDir } from "../run.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const jar = process.env.TLA2TOOLS;
@@ -153,6 +153,6 @@ export function agrees(module: string, files: { [name: string]: string[] }, cfg:
     }
     return { status: cli.status, breaks, holds, unchecked, chart, report };
   } finally {
-    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
+    removeDir(dir);
   }
 }

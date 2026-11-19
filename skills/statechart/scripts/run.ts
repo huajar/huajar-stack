@@ -101,6 +101,16 @@ export const killGroup = (pid: number) =>
     ).on("exit", resolve),
   );
 
+export const removeDir = (dir: string) => {
+  for (let wait = 400; ; wait += 400)
+    try {
+      return fs.rmSync(dir, { recursive: true, force: true });
+    } catch (error) {
+      if (process.platform !== "win32" || wait > 4000) throw error;
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, wait);
+    }
+};
+
 export const messageOf = (error: unknown) =>
   typeof error === "object" &&
   error !== null &&
@@ -517,6 +527,6 @@ export async function check(specFile: string, configFile: string): Promise<Check
       drawing: undefined,
     };
   } finally {
-    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
+    removeDir(dir);
   }
 }
