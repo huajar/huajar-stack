@@ -82,7 +82,7 @@ const runChild = (file: string, args: string[], options: { cwd: string; env: Nod
     execFile(
       file,
       args,
-      { encoding: "utf8", maxBuffer: 1 << 30, ...options },
+      { encoding: "utf8", maxBuffer: 1 << 30, windowsHide: true, ...options },
       (error, stdout, stderr) =>
         resolve({
           status: error ? (typeof error.code === "number" ? error.code : null) : 0,
@@ -185,7 +185,7 @@ const runToFiles = (
     let child: ChildProcess;
     try {
       const [command, ...before] = process.platform === "win32" ? shebang(file) : [file];
-      child = spawn(command, [...before, ...args], { ...options, stdio: ["ignore", ...fds] });
+      child = spawn(command, [...before, ...args], { ...options, stdio: ["ignore", ...fds], windowsHide: true });
     } finally {
       for (const fd of fds) fs.closeSync(fd);
     }
@@ -517,6 +517,6 @@ export async function check(specFile: string, configFile: string): Promise<Check
       drawing: undefined,
     };
   } finally {
-    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10 });
+    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
   }
 }

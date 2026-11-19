@@ -15,8 +15,6 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const corpus = path.join(here, "corpus");
 const read = (file: string) => fs.readFileSync(file, "utf8");
 const windows = process.platform === "win32";
-const noPosixPath =
-  windows && "Windows cannot make the launcher a POSIX PATH: a symlink needs Developer Mode";
 const noSignals = windows && "Windows has no POSIX signals, ps -o, or mkfifo";
 
 function run(
@@ -107,12 +105,24 @@ for (const name of fs.readdirSync(corpus)) {
 }
 
 const launcher = path.join(here, "../statechart");
+// Windows runs the launcher with Git Bash's sh, which follows the links ln -s makes there without
+// Developer Mode. A target in /c/ form keeps ln from rewriting it under /tmp, which moves with TEMP.
+const sh = windows && spawnSync("sh", ["-c", "cygpath -w /usr/bin/sh"], { encoding: "utf8" }).stdout.trim();
+const viaSh = (file: string) => (sh ? [sh, file.replaceAll("\\", "/")] : [file]);
+const symlink = (target: string, file: string) =>
+  windows
+    ? spawnSync(
+        "sh",
+        ["-c", 'ln -s "$0" "$1"', target.replace(/^(\w):/, "/$1").replaceAll("\\", "/"), file],
+        { env: { ...process.env, MSYS: "winsymlinks:sys" } },
+      )
+    : fs.symlinkSync(target, file);
 
 const launcherTools = () => {
   const bin = fs.mkdtempSync(path.join(os.tmpdir(), "statechart-bin-"));
   for (const tool of ["dirname", "readlink", "sed"]) {
     const found = spawnSync("sh", ["-c", `command -v ${tool}`], { encoding: "utf8" });
-    fs.symlinkSync(found.stdout.trim(), path.join(bin, tool));
+    symlink(found.stdout.trim(), path.join(bin, tool));
   }
   return bin;
 };
@@ -122,8 +132,8 @@ const linkedLauncher = () => {
   const [first, second] = [path.join(links, "a"), path.join(links, "b")];
   fs.mkdirSync(first);
   fs.mkdirSync(second);
-  fs.symlinkSync(path.relative(second, launcher), path.join(second, "statechart"));
-  fs.symlinkSync(path.join(second, "statechart"), path.join(first, "statechart"));
+  symlink(path.relative(second, launcher), path.join(second, "statechart"));
+  symlink(path.join(second, "statechart"), path.join(first, "statechart"));
   return path.join(first, "statechart");
 };
 
@@ -131,10 +141,10 @@ for (const [how, command] of [
   ["by its own path", () => launcher],
   ["through an absolute and a relative symlink", linkedLauncher],
 ] satisfies [string, () => string][]) {
-  test(`the launcher reached ${how} writes the committed chart on this Node`, { skip: noPosixPath }, () => {
+  test(`the launcher reached ${how} writes the committed chart on this Node`, () => {
     const dir = path.join(corpus, "MediaPlayer");
     const r = run(dir, {
-      command: [command()],
+      command: viaSh(command()),
       env: { PATH: `${path.dirname(process.execPath)}${path.delimiter}${launcherTools()}` },
     });
     assert.equal(r.stderr, "");
@@ -163,14 +173,14 @@ const fakeBun = (version: string) => () => {
   return bin;
 };
 
-test("the launcher runs statechart.ts on Bun 1.1.5 when PATH has no Node", { skip: noPosixPath }, () => {
+test("the launcher runs statechart.ts on Bun 1.1.5 when PATH has no Node", () => {
   const r = run(path.join(corpus, "Login"), {
-    command: [launcher],
+    command: viaSh(launcher),
     env: { PATH: fakeBun("1.1.5")() },
   });
   assert.equal(r.stderr, "");
   assert.equal(r.status, 0);
-  assert.equal(r.stdout, `${path.join(here, "../statechart.ts")}\n`);
+  assert.equal(r.stdout.replace(/^.*(?=\n$)/, (file) => path.resolve(file)), `${path.join(here, "../statechart.ts")}\n`);
 });
 
 for (const [what, bin] of [
@@ -178,8 +188,8 @@ for (const [what, bin] of [
   ["has only a node that fails --version", unsetNode],
   ["has only Bun 1.1.4", fakeBun("1.1.4")],
 ] satisfies [string, () => string][]) {
-  test(`the launcher stops with exit 127 and names only the runtimes when PATH ${what}`, { skip: noPosixPath }, () => {
-    const r = run(path.join(corpus, "Login"), { command: [launcher], env: { PATH: bin() } });
+  test(`the launcher stops with exit 127 and names only the runtimes when PATH ${what}`, () => {
+    const r = run(path.join(corpus, "Login"), { command: viaSh(launcher), env: { PATH: bin() } });
     assert.equal(r.status, 127);
     assert.equal(
       r.stderr,

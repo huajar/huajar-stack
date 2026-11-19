@@ -199,7 +199,7 @@ test(
   { skip },
   (t) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), "statechart-config-fuzz-"));
-    t.after(() => fs.rmSync(dir, { recursive: true, maxRetries: 10 }));
+    t.after(() => fs.rmSync(dir, { recursive: true, maxRetries: 10, retryDelay: 400 }));
     const random = mulberry32(SEED);
     const cases: {
       i: number;

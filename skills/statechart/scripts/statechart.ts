@@ -110,7 +110,7 @@ try {
       {
         detached: true,
         stdio: ["ignore", "inherit", "inherit"],
-        env: { ...process.env, TMPDIR: tmp },
+        env: { ...process.env, TMPDIR: tmp, TEMP: tmp, TMP: tmp },
       },
     );
     const cleanup = [String(worker.pid), stage, tmp];
@@ -120,7 +120,7 @@ try {
             process.execPath,
             [
               "-e",
-              'const [pid, ...dirs] = process.argv.slice(-3); process.stdin.on("end", () => { require("node:child_process").spawnSync("taskkill", ["/PID", pid, "/T", "/F"]); for (const d of dirs) require("node:fs").rmSync(d, { recursive: true, force: true, maxRetries: 10 }); }).resume();',
+              'const [pid, ...dirs] = process.argv.slice(-3); process.stdin.on("end", () => { require("node:child_process").spawnSync("taskkill", ["/PID", pid, "/T", "/F"], { windowsHide: true }); for (const d of dirs) require("node:fs").rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 }); }).resume();',
               ...cleanup,
             ],
             { detached: true, stdio: ["pipe", "ignore", "ignore"] },
@@ -165,8 +165,8 @@ try {
       exitCode = verdict;
     } else exitCode = 2;
   } finally {
-    fs.rmSync(stage, { recursive: true, force: true, maxRetries: 10 });
-    if (tmp) fs.rmSync(tmp, { recursive: true, force: true, maxRetries: 10 });
+    fs.rmSync(stage, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
+    if (tmp) fs.rmSync(tmp, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
     janitor?.kill("SIGKILL");
   }
   process.exit(exitCode);

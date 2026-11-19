@@ -30,7 +30,9 @@
     "K28": "Claude Code's Agent tool takes `effort` as well as `model`, and setup-huajar-stack's rule omits both for `inherit-parent` and `auto`, so pstack's sentence that the subagent `model` field alone is omitted is false here.",
     "K29": "huajar-agent's file has no model line. A Cursor slug there would reach the Claude Code API, so the caller passes model and effort on every spawn, as the adapter says.",
     "K30": "Windows has no /bin/sh, POSIX process groups, or shebangs, Java prints CRLF there, a folder cannot be renamed over an empty one, a PID is reused at once, and a folder that a process just left can refuse removal for a moment. So on Windows the command kills the process tree with taskkill only while the worker runs, waits on its parent with a node janitor, passes -Dline.separator to the JVM, runs a script JAVA with the interpreter its shebang names, and removes an empty --out before the rename, and each folder removal retries.",
-    "K31": "On Windows, npm is a .cmd file that runs only through a shell, an ESM import needs a file URL rather than a drive path, a symlink needs Developer Mode while a junction does not, and a folder that TLC just left can refuse removal for a moment, so each folder removal retries. The tests that need POSIX signals, ps -o, mkfifo, or a launcher PATH of symlinks skip there."
+    "K31": "On Windows, npm is a .cmd file that runs only through a shell, an ESM import needs a file URL rather than a drive path, a symlink needs Developer Mode while a junction does not, and a folder that TLC just left can refuse removal for a moment, so each folder removal retries. The tests that need POSIX signals, ps -o, or mkfifo skip there.",
+    "K32": "On Windows, a console program that a detached process starts opens its own console, which Windows 11 shows as a Windows Terminal tab, os.tmpdir() reads TEMP and TMP rather than TMPDIR, and Oracle's java.exe in javapath is a stub whose JVM child can hold its folder for seconds after the stub exits. So the command hides those consoles, gives the worker TEMP and TMP too, and waits up to 22 seconds for a folder removal.",
+    "K33": "Windows keeps what a test leaves in %TEMP%, Git Bash's ln -s makes links that its sh follows without Developer Mode, and Oracle's java.exe stub can leave its JVM holding a folder for seconds. So each test process keeps its temporary folders in one folder that it removes on exit, the launcher tests on Windows make their links with ln -s and run the launcher with sh, and a folder removal waits up to 22 seconds."
   },
   "files": {
     "agents/huajar-agent.md": {
@@ -1047,10 +1049,6 @@
           "group": "K30"
         },
         {
-          "sentence": "child = spawn(command, [...before, ...args], { ...options, stdio: [\"ignore\", ...fds] });",
-          "group": "K30"
-        },
-        {
           "sentence": "...(process.platform === \"win32\" ?",
           "group": "K30"
         },
@@ -1059,8 +1057,16 @@
           "group": "K30"
         },
         {
-          "sentence": "fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10 });",
-          "group": "K30"
+          "sentence": "{ encoding: \"utf8\", maxBuffer: 1 << 30, windowsHide: true, ...options },",
+          "group": "K32"
+        },
+        {
+          "sentence": "child = spawn(command, [...before, ...args], { ...options, stdio: [\"ignore\", ...fds], windowsHide: true });",
+          "group": "K32"
+        },
+        {
+          "sentence": "fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });",
+          "group": "K32"
         }
       ],
       "dropped": [
@@ -1087,6 +1093,10 @@
         {
           "sentence": "fs.rmSync(dir, { recursive: true, force: true });",
           "group": "K30"
+        },
+        {
+          "sentence": "{ encoding: \"utf8\", maxBuffer: 1 << 30, ...options },",
+          "group": "K32"
         }
       ]
     },
@@ -1118,10 +1128,6 @@
         },
         {
           "sentence": "\"-e\",",
-          "group": "K30"
-        },
-        {
-          "sentence": "'const [pid, ...dirs] = process.argv.slice(-3); process.stdin.on(\"end\", () => { require(\"node:child_process\").spawnSync(\"taskkill\", [\"/PID\", pid, \"/T\", \"/F\"]); for (const d of dirs) require(\"node:fs\").rmSync(d, { recursive: true, force: true, maxRetries: 10 }); }).resume();',",
           "group": "K30"
         },
         {
@@ -1161,12 +1167,20 @@
           "group": "K30"
         },
         {
-          "sentence": "fs.rmSync(stage, { recursive: true, force: true, maxRetries: 10 });",
-          "group": "K30"
+          "sentence": "env: { ...process.env, TMPDIR: tmp, TEMP: tmp, TMP: tmp },",
+          "group": "K32"
         },
         {
-          "sentence": "if (tmp) fs.rmSync(tmp, { recursive: true, force: true, maxRetries: 10 });",
-          "group": "K30"
+          "sentence": "'const [pid, ...dirs] = process.argv.slice(-3); process.stdin.on(\"end\", () => { require(\"node:child_process\").spawnSync(\"taskkill\", [\"/PID\", pid, \"/T\", \"/F\"], { windowsHide: true }); for (const d of dirs) require(\"node:fs\").rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 }); }).resume();',",
+          "group": "K32"
+        },
+        {
+          "sentence": "fs.rmSync(stage, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });",
+          "group": "K32"
+        },
+        {
+          "sentence": "if (tmp) fs.rmSync(tmp, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });",
+          "group": "K32"
         }
       ],
       "dropped": [
@@ -1197,6 +1211,10 @@
         {
           "sentence": "if (tmp) fs.rmSync(tmp, { recursive: true, force: true });",
           "group": "K30"
+        },
+        {
+          "sentence": "env: { ...process.env, TMPDIR: tmp },",
+          "group": "K32"
         }
       ]
     },
@@ -1207,27 +1225,7 @@
           "group": "K31"
         },
         {
-          "sentence": "const noPosixPath =",
-          "group": "K31"
-        },
-        {
-          "sentence": "windows && \"Windows cannot make the launcher a POSIX PATH: a symlink needs Developer Mode\";",
-          "group": "K31"
-        },
-        {
           "sentence": "const noSignals = windows && \"Windows has no POSIX signals, ps -o, or mkfifo\";",
-          "group": "K31"
-        },
-        {
-          "sentence": "test(`the launcher reached ${how} writes the committed chart on this Node`, { skip: noPosixPath }, () => {",
-          "group": "K31"
-        },
-        {
-          "sentence": "test(\"the launcher runs statechart.ts on Bun 1.1.5 when PATH has no Node\", { skip: noPosixPath }, () => {",
-          "group": "K31"
-        },
-        {
-          "sentence": "test(`the launcher stops with exit 127 and names only the runtimes when PATH ${what}`, { skip: noPosixPath }, () => {",
           "group": "K31"
         },
         {
@@ -1265,21 +1263,93 @@
         {
           "sentence": "(out) => fs.symlinkSync(path.join(path.dirname(out), \"gone\"), out, \"junction\"),",
           "group": "K31"
+        },
+        {
+          "sentence": "// Windows runs the launcher with Git Bash's sh, which follows the links ln -s makes there without",
+          "group": "K33"
+        },
+        {
+          "sentence": "// Developer Mode.",
+          "group": "K33"
+        },
+        {
+          "sentence": "A target in /c/ form keeps ln from rewriting it under /tmp, which moves with TEMP.",
+          "group": "K33"
+        },
+        {
+          "sentence": "const sh = windows && spawnSync(\"sh\", [\"-c\", \"cygpath -w /usr/bin/sh\"], { encoding: \"utf8\" }).stdout.trim();",
+          "group": "K33"
+        },
+        {
+          "sentence": "const viaSh = (file: string) => (sh ?",
+          "group": "K33"
+        },
+        {
+          "sentence": "[sh, file.replaceAll(\"\\\\\", \"/\")] : [file]);",
+          "group": "K33"
+        },
+        {
+          "sentence": "const symlink = (target: string, file: string) =>",
+          "group": "K33"
+        },
+        {
+          "sentence": "windows",
+          "group": "K33"
+        },
+        {
+          "sentence": "? spawnSync(",
+          "group": "K33"
+        },
+        {
+          "sentence": "\"sh\",",
+          "group": "K33"
+        },
+        {
+          "sentence": "[\"-c\", 'ln -s \"$0\" \"$1\"', target.replace(/^(\\w):/, \"/$1\").replaceAll(\"\\\\\", \"/\"), file],",
+          "group": "K33"
+        },
+        {
+          "sentence": "{ env: { ...process.env, MSYS: \"winsymlinks:sys\" } },",
+          "group": "K33"
+        },
+        {
+          "sentence": ")",
+          "group": "K33"
+        },
+        {
+          "sentence": ": fs.symlinkSync(target, file);",
+          "group": "K33"
+        },
+        {
+          "sentence": "symlink(found.stdout.trim(), path.join(bin, tool));",
+          "group": "K33"
+        },
+        {
+          "sentence": "symlink(path.relative(second, launcher), path.join(second, \"statechart\"));",
+          "group": "K33"
+        },
+        {
+          "sentence": "symlink(path.join(second, \"statechart\"), path.join(first, \"statechart\"));",
+          "group": "K33"
+        },
+        {
+          "sentence": "command: viaSh(command()),",
+          "group": "K33"
+        },
+        {
+          "sentence": "command: viaSh(launcher),",
+          "group": "K33"
+        },
+        {
+          "sentence": "assert.equal(r.stdout.replace(/^.*(?=\\n$)/, (file) => path.resolve(file)), `${path.join(here, \"../statechart.ts\")}\\n`);",
+          "group": "K33"
+        },
+        {
+          "sentence": "const r = run(path.join(corpus, \"Login\"), { command: viaSh(launcher), env: { PATH: bin() } });",
+          "group": "K33"
         }
       ],
       "dropped": [
-        {
-          "sentence": "test(`the launcher reached ${how} writes the committed chart on this Node`, () => {",
-          "group": "K31"
-        },
-        {
-          "sentence": "test(\"the launcher runs statechart.ts on Bun 1.1.5 when PATH has no Node\", () => {",
-          "group": "K31"
-        },
-        {
-          "sentence": "test(`the launcher stops with exit 127 and names only the runtimes when PATH ${what}`, () => {",
-          "group": "K31"
-        },
         {
           "sentence": "{ timeout: 30_000 },",
           "group": "K31"
@@ -1315,14 +1385,42 @@
         {
           "sentence": "(out) => fs.symlinkSync(path.join(path.dirname(out), \"gone\"), out),",
           "group": "K31"
+        },
+        {
+          "sentence": "fs.symlinkSync(found.stdout.trim(), path.join(bin, tool));",
+          "group": "K33"
+        },
+        {
+          "sentence": "fs.symlinkSync(path.relative(second, launcher), path.join(second, \"statechart\"));",
+          "group": "K33"
+        },
+        {
+          "sentence": "fs.symlinkSync(path.join(second, \"statechart\"), path.join(first, \"statechart\"));",
+          "group": "K33"
+        },
+        {
+          "sentence": "command: [command()],",
+          "group": "K33"
+        },
+        {
+          "sentence": "command: [launcher],",
+          "group": "K33"
+        },
+        {
+          "sentence": "assert.equal(r.stdout, `${path.join(here, \"../statechart.ts\")}\\n`);",
+          "group": "K33"
+        },
+        {
+          "sentence": "const r = run(path.join(corpus, \"Login\"), { command: [launcher], env: { PATH: bin() } });",
+          "group": "K33"
         }
       ]
     },
     "skills/statechart/scripts/test/config-fuzz.test.ts": {
       "sentences": [
         {
-          "sentence": "t.after(() => fs.rmSync(dir, { recursive: true, maxRetries: 10 }));",
-          "group": "K31"
+          "sentence": "t.after(() => fs.rmSync(dir, { recursive: true, maxRetries: 10, retryDelay: 400 }));",
+          "group": "K33"
         }
       ],
       "dropped": [
@@ -1335,8 +1433,8 @@
     "skills/statechart/scripts/test/differential.test.ts": {
       "sentences": [
         {
-          "sentence": "fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10 });",
-          "group": "K31"
+          "sentence": "fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });",
+          "group": "K33"
         }
       ],
       "dropped": [
@@ -1411,14 +1509,31 @@
     "skills/statechart/scripts/test/tlc.ts": {
       "sentences": [
         {
-          "sentence": "fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10 });",
-          "group": "K31"
+          "sentence": "fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });",
+          "group": "K33"
         }
       ],
       "dropped": [
         {
           "sentence": "fs.rmSync(dir, { recursive: true, force: true });",
           "group": "K31"
+        }
+      ]
+    },
+    "skills/statechart/scripts/test/tmp.ts": {
+      "whole": "K33"
+    },
+    "skills/statechart/scripts/package.json": {
+      "sentences": [
+        {
+          "sentence": "\"test\": \"node --disable-warning=ExperimentalWarning --import ./test/tmp.ts --test test/*.test.ts\"",
+          "group": "K33"
+        }
+      ],
+      "dropped": [
+        {
+          "sentence": "\"test\": \"node --disable-warning=ExperimentalWarning --test test/*.test.ts\"",
+          "group": "K33"
         }
       ]
     }

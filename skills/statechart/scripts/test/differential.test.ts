@@ -391,7 +391,7 @@ async function answer(c: Case) {
     assert.deepEqual(compilerAnswers(compiled, c), plain);
     return compiled.stdout;
   } finally {
-    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10 });
+    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
   }
 }
 

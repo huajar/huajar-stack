@@ -153,6 +153,6 @@ export function agrees(module: string, files: { [name: string]: string[] }, cfg:
     }
     return { status: cli.status, breaks, holds, unchecked, chart, report };
   } finally {
-    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10 });
+    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 400 });
   }
 }
