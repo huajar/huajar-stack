@@ -46,7 +46,7 @@ When the operator corrects a mistake, fix it and add its rule here. A rule that 
 | --- | --- |
 | A file taken from pstack differs from the Reference only by listed Adaptations. | `check-reference.mjs --checks reference` |
 | Map rows, the model defaults, and the text they copy stay in step. | `check-reference.mjs --checks map` |
-| Every Cursor path in `skills/`, `agents/`, `hooks/`, or `docs/guide/` has a row in the map that translates it. | `check-cursor-paths.mjs` |
+| Every Cursor path in a Markdown file under `skills/`, `agents/`, `hooks/`, or `docs/guide/` has a row in the map that translates it. Any other text file there names no Cursor path, since it runs without the map. | `check-cursor-paths.mjs` |
 | The map fits under the hook output cap. | the hook output step in `validate.yml` |
 | The docs use the Herdr app and `hc`, never herdr 0.9 commands. | the herdr 0.9 step in `validate.yml` |
 | Outside a `SKILL.md`, the session id is `$CLAUDE_CODE_SESSION_ID`. | the session id step in `validate.yml` |
