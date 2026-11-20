@@ -33,8 +33,18 @@ jobs:
         run: |
           status=0
           joined=""
+          seen=$(mktemp)
+          echo '{"attachment":{"hookName":"UserPromptSubmit","content":"# huajar-stack in Claude Code"}}' > "$seen"
           while IFS= read -r cmd; do
-            out=$(CLAUDE_PLUGIN_ROOT="$PWD" bash -c "$cmd" | tr -d '\r'; printf x)
+            if [ -n "$(echo '{"prompt":"hi"}' | CLAUDE_PLUGIN_ROOT="$PWD" bash -c "$cmd")" ]; then
+              echo "::error file=hooks/hooks.json::A prompt that names no huajar-stack skill printed the map."
+              status=1
+            fi
+            if [ -n "$(echo "{\"prompt\":\"/huajar-stack:swarm\",\"transcript_path\":\"$seen\"}" | CLAUDE_PLUGIN_ROOT="$PWD" bash -c "$cmd")" ]; then
+              echo "::error file=hooks/hooks.json::A session whose transcript already holds the map printed it again."
+              status=1
+            fi
+            out=$(echo '{"prompt":"/huajar-stack:huajar-mode"}' | CLAUDE_PLUGIN_ROOT="$PWD" bash -c "$cmd" | tr -d '\r'; printf x)
             out=${out%x}
             chars=$(printf '%s' "$out" | wc -m)
             echo "hook output: $chars characters"
@@ -43,7 +53,7 @@ jobs:
               status=1
             fi
             joined+="$out"
-          done < <(jq -r '.hooks.SessionStart[].hooks[].command' hooks/hooks.json)
+          done < <(jq -r '.hooks.UserPromptSubmit[].hooks[].command' hooks/hooks.json)
           expected=$(tr -d '\r' < docs/harness/claude-code.md; printf x)
           if [ "$joined"x != "$expected" ]; then
             echo "::error file=hooks/hooks.json::The hook outputs joined in order differ from docs/harness/claude-code.md, so a row is not printed. Check that the split heading still exists."
