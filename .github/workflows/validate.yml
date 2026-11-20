@@ -33,9 +33,15 @@ jobs:
         run: |
           status=0
           joined=""
+          seen=$(mktemp)
+          echo '{"attachment":{"hookName":"UserPromptSubmit","content":"# huajar-stack in Claude Code"}}' > "$seen"
           while IFS= read -r cmd; do
             if [ -n "$(echo '{"prompt":"hi"}' | CLAUDE_PLUGIN_ROOT="$PWD" bash -c "$cmd")" ]; then
               echo "::error file=hooks/hooks.json::A prompt that names no huajar-stack skill printed the map."
+              status=1
+            fi
+            if [ -n "$(echo "{\"prompt\":\"/huajar-stack:swarm\",\"transcript_path\":\"$seen\"}" | CLAUDE_PLUGIN_ROOT="$PWD" bash -c "$cmd")" ]; then
+              echo "::error file=hooks/hooks.json::A session whose transcript already holds the map printed it again."
               status=1
             fi
             out=$(echo '{"prompt":"/huajar-stack:huajar-mode"}' | CLAUDE_PLUGIN_ROOT="$PWD" bash -c "$cmd" | tr -d '\r'; printf x)
