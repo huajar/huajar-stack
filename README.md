@@ -41,7 +41,7 @@ Claude Code. Some playbooks also call these tools:
 ## For agents
 
 - Read [AGENTS.md](AGENTS.md) before you change this repo.
-- Read [the map](docs/harness/claude-code.md) before you follow a skill. Skills taken from pstack use Cursor names, and the map gives the Claude Code name for each. The plugin's SessionStart hook prints it into every session.
+- Read [the map](docs/harness/claude-code.md) before you follow a skill. Skills taken from pstack use Cursor names, and the map gives the Claude Code name for each. The plugin's hooks print it into the session when a huajar-stack skill starts there.
 - Use the words in [CONTEXT.md](CONTEXT.md).
 
 ## Repository layout
@@ -50,7 +50,7 @@ Claude Code. Some playbooks also call these tools:
 skills/huajar-mode/           the mode, its playbooks, its worker references, and its scripts
 skills/<name>/                every other skill: situational skills, principles, setup, and help
 agents/                       huajar-agent, which every delegate runs as, and comment-sicko
-hooks/hooks.json              prints the map into every session
+hooks/                        prints the map when a huajar-stack skill starts
 docs/harness/claude-code.md   the map
 docs/guide/                   the guide
 .github/                      CI, the check that keeps files taken from pstack in line with it, and the Cursor path check

@@ -2,14 +2,44 @@
   "hooks": {
     "SessionStart": [
       {
+        "matcher": "compact",
         "hooks": [
           {
             "type": "command",
-            "command": "sed '/^## Paths/,$d' \"${CLAUDE_PLUGIN_ROOT}/docs/harness/claude-code.md\""
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/print-map.sh\" head SessionStart"
           },
           {
             "type": "command",
-            "command": "sed -n '/^## Paths/,$p' \"${CLAUDE_PLUGIN_ROOT}/docs/harness/claude-code.md\""
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/print-map.sh\" tail SessionStart"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/print-map.sh\" head"
+          },
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/print-map.sh\" tail"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/print-map.sh\" head PostToolUse"
+          },
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/print-map.sh\" tail PostToolUse"
           }
         ]
       }
