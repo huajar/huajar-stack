@@ -60,7 +60,7 @@ Cloud sessions draw on the same token quota as local sessions, so one quota cap 
 
 Write the brief, with every field its playbook's brief names, to `<temp>/huajar-stack/<run>/<unit>.brief.md`, as in step 5 of the local workers reference. The first line is `/huajar-stack:huajar-mode`, so the session loads the mode. Then add:
 
-- **Everything inline.** The session cannot read the Store, the temp folder, or any other local path. Paste everything the worker needs and point only at repo paths.
+- **Everything inline.** The session cannot read the Store, the temp folder, or any other local path. Paste everything the worker needs, an issue or PR body included, and point only at repo paths.
 - **A leaf.** The brief names the actions the worker must not take, such as starting workers, cloud sessions, routines, or scheduled tasks. It pastes the rules of [`worker.md`](../worker.md) inline, after the first line, because the session cannot read a local path.
 - **A work branch.** Name the branch the worker pushes. Without one, the session works on its own `claude/<slug>` branch and does not push it.
 - **A report branch.** Name a second branch, such as `<run>/<unit>-report`, that adds only `report.md`. The coordinator cannot read the session's terminal, so the whole report goes in that file. An owner that reports more than once, such as each later head and merge-ready, adds each report as a new commit on the same branch.
