@@ -11,7 +11,7 @@
   {"map":"all at `medium`","file":"skills/setup-huajar-stack/SKILL.md","text":"# budget: medium (medium)","why":"every default effort is medium"},
   {"map":"`auto` or `inherit-parent` | Omit `model` and `effort`.","file":"skills/setup-huajar-stack/SKILL.md","text":"the role runs on the parent chat model (omit Agent `model` and `effort`)","why":"a role on auto or inherit-parent omits model and effort"},
   {"map":"If the file or the role's line is missing, use the skill's default slug.","file":"skills/setup-huajar-stack/SKILL.md","text":"Delete a line to fall back to the skill default.","why":"a missing role line falls back to the skill default"},
-  {"map":"extends pstack's adapter at `2f87c85`","file":".github/reference/adaptations.json","text":"plugins/tree/2f87c85","why":"the Reference commit"},
+  {"map":"extends pstack's adapter at `0b46ec3`","file":".github/reference/adaptations.json","text":"plugins/tree/0b46ec3","why":"the Reference commit"},
   {"map":"the rule shape of `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, step 6","file":"skills/setup-huajar-stack/SKILL.md","text":"### 6. Write the rule","why":"step 6 is the rule shape"},
   {"map":"`~/.claude/rules/huajar-stack-models.md`, already in context","file":"skills/setup-huajar-stack/SKILL.md","text":"Write `~/.claude/rules/huajar-stack-models.md`","why":"the rule's path"},
   {"map":"The session refuses GraphQL, so `gh issue`, `gh pr view`, and `gh pr checks` exit 1 with `HTTP 403`","file":"skills/huajar-mode/references/cloud-workers.md","text":"The session refuses GraphQL. `gh issue`, `gh pr view`, and `gh pr checks` exit 1 with `HTTP 403","why":"which gh commands fail with the GraphQL refusal"},

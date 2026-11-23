@@ -58,4 +58,4 @@ docs/guide/                   the guide
 
 ## Credits
 
-huajar-stack builds on [pstack](https://github.com/cursor/plugins/tree/2f87c854fe3e2fcda44ca86b46ede35aad3c46b7/pstack) by Lauren Tan ([@poteto](https://x.com/poteto)), and follows it at a pinned commit, `2f87c85`. It runs its parallel workers on the Herdr app and its `hc` CLI. Files taken from pstack and its companion plugin cursor-team-kit keep their MIT notices in [LICENSE](LICENSE).
+huajar-stack builds on [pstack](https://github.com/cursor/plugins/tree/0b46ec399d55f2829e88822998f53b84944837d3/pstack) by Lauren Tan ([@poteto](https://x.com/poteto)), and follows it at a pinned commit, `0b46ec3`. It runs its parallel workers on the Herdr app and its `hc` CLI. Files taken from pstack and its companion plugin cursor-team-kit keep their MIT notices in [LICENSE](LICENSE).

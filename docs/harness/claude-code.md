@@ -2,7 +2,7 @@
 
 huajar-stack skills come from pstack and use Cursor names. In Claude Code, read this file once per session, then map each Cursor name in a skill with the tables below. `<pstack>` and `<huajar-stack>` mean the plugin root, the folder that holds `skills/` and `docs/`. `${CLAUDE_PLUGIN_ROOT}` names it. If a Cursor field has no row, drop it and say so. Never pass a field or value the tool schema rejects.
 
-It extends pstack's adapter at `2f87c85`, the pstack commit that huajar-stack follows.
+It extends pstack's adapter at `0b46ec3`, the pstack commit that huajar-stack follows.
 
 ## Names
 
