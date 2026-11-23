@@ -19,8 +19,8 @@ const prefixes = readFileSync(join(root, MAP), "utf8")
 	.filter((token) => /\.cursor\/|Application Support\/Cursor/.test(token))
 	.map((token) => normalize(token).split(/[*<]/)[0]);
 
-const files = execFileSync("git", ["-C", root, "ls-files", "skills", "agents", "hooks", "docs/guide"], { encoding: "utf8" })
-	.split("\n")
+const files = execFileSync("git", ["-C", root, "ls-files", "-z", "skills", "agents", "hooks", "docs/guide"], { encoding: "utf8" })
+	.split("\0")
 	.filter(Boolean);
 
 let failed = 0;
