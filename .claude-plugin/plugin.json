@@ -1,6 +1,6 @@
 {
   "name": "huajar-stack",
-  "version": "1.15.1",
+  "version": "1.16.0",
   "description": "A Claude Code plugin that runs each task to a check, with a mode that picks the playbook and parallel workers on the Herdr app.",
   "author": {
     "name": "Rodrigo Huajamaita",
