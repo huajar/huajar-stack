@@ -1,13 +1,13 @@
 ---
 name: setup-huajar-stack
-description: Configure which models huajar-stack uses per role, at what reasoning budget, the Local ceiling, and the quota cap. Detects your available models and writes an always-applied rule that overrides the skill defaults. Use for /huajar-stack:setup-huajar-stack, "configure huajar-stack models", "huajar-stack budget", or changing huajar-stack's model choices.
+description: Configure which models huajar-stack uses per role, at what reasoning budget, and the Local ceiling. Detects your available models and writes an always-applied rule that overrides the skill defaults. Use for /huajar-stack:setup-huajar-stack, "configure huajar-stack models", "huajar-stack budget", or changing huajar-stack's model choices.
 ---
 
 # Setup huajar-stack
 
 In Claude Code, read [the Claude Code adapter](../../docs/harness/claude-code.md) once per session before you follow this skill. It maps the Cursor names in pstack skills to Claude Code.
 
-Write `~/.claude/rules/huajar-stack-models.md`, an always-applied rule that sets huajar-stack's model per role, the Local ceiling, and the quota cap.
+Write `~/.claude/rules/huajar-stack-models.md`, an always-applied rule that sets huajar-stack's model per role and the Local ceiling.
 
 ## Steps
 
@@ -17,7 +17,7 @@ Enumerate the model slugs you can run as an `Agent` subagent in this session. `A
 
 ### 2. Load current state
 
-The default role-to-model mapping is the rule shape shown in step 6 below. If `~/.claude/rules/huajar-stack-models.md` already exists, read it and treat its `# budget`, `# local ceiling`, and `# quota cap` lines and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 6, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it.
+The default role-to-model mapping is the rule shape shown in step 6 below. If `~/.claude/rules/huajar-stack-models.md` already exists, read it and treat its `# budget` and `# local ceiling` lines and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 6, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it. A `# quota cap` line is from a retired setting. Drop it too.
 
 A rule without the `# defaults: 3` line comes from an older setup. That setup wrote a line for every role, so some of its values are old defaults, not choices. Before step 3, replace these values:
 
@@ -39,7 +39,7 @@ Every other value is the user's choice and stays, including every `inherit-paren
 
 **(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` and `auto` as the options. Both mean the role runs on the parent chat model. Prefer AskUserQuestion over free text. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list. Its default is one Opus entry, which runs the cross-judge. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
 
-### 4. Set the Local ceiling and the quota cap
+### 4. Set the Local ceiling
 
 The Local ceiling is the most full Claude Code sessions that the machine runs at once. A skill that starts local workers never starts more than this.
 
@@ -51,9 +51,7 @@ node -e "const os=require('os'),c=os.cpus().length,g=os.totalmem()/2**30;console
 
 It prints the logical CPUs, the total memory, and the suggestion: the smaller of half the CPUs and a quarter of the GiB, rounded down, and at least 1. The margin covers builds, tests, and services such as Docker, not only the ~0.5 GB of each session. A machine with 12 CPUs and 31.65 GiB suggests `min(6, 7) = 6`.
 
-The quota cap is the most full sessions, local and cloud, that one coordinator holds in flight at once, because both draw on the same token quota. Each coordinator counts only its own sessions, so running several projects at once multiplies spend. That choice is the user's. If the rule already has a `# quota cap` line, keep its number unless the user asks to change it. Otherwise suggest 2.
-
-Ask for each number you did not keep in one AskUserQuestion call, one question each. For the Local ceiling, show the three numbers and ask whether to accept the suggestion or lower it. For the quota cap, ask whether to accept the suggestion or pick another number. Keep both numbers for step 6.
+If you did not keep the number, ask in one AskUserQuestion call whether to accept the suggestion or lower it, and show the three numbers. Keep the number for step 6.
 
 ### 5. Validate
 
@@ -61,7 +59,7 @@ Every real slug written must be in the detected set and at `xhigh` or below. `in
 
 ### 6. Write the rule
 
-Write `~/.claude/rules/huajar-stack-models.md` with no frontmatter, a `# budget` line with the chosen label and its target effort, a `# local ceiling` line and a `# quota cap` line with the numbers from step 4 under it, and one line per role, using the same labels huajar-mode uses. Claude Code loads a rule without `paths` frontmatter in every session. Overwrite the whole file so re-runs stay idempotent. Shape:
+Write `~/.claude/rules/huajar-stack-models.md` with no frontmatter, a `# budget` line with the chosen label and its target effort, a `# local ceiling` line with the number from step 4 under it, and one line per role, using the same labels huajar-mode uses. Claude Code loads a rule without `paths` frontmatter in every session. Overwrite the whole file so re-runs stay idempotent. Shape:
 
 ```
 # huajar-stack model configuration. One line per role. Delete a line to fall back to the skill default.
@@ -70,7 +68,6 @@ Write `~/.claude/rules/huajar-stack-models.md` with no frontmatter, a `# budget`
 # defaults: 3
 # budget: medium (medium)
 # local ceiling: 6
-# quota cap: 2
 feature, refactoring: claude-opus-5-5-medium
 bug-fix: claude-opus-5-5-medium
 perf-issue: claude-opus-5-5-medium

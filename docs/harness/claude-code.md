@@ -41,7 +41,7 @@ Files keep huajar-stack's names.
 | The `model:` line in `poteto-agent`'s file | huajar-agent's file has none. Pass `model` and `effort` on every `Agent` call that spawns `huajar-stack:huajar-agent`, mapped with the Models table. |
 | `readonly: true` | `subagent_type: "Explore"`. It keeps `Bash`, so the brief says "do not edit files", and you check `git status` after. |
 | `readonly: false` | `general-purpose`. It keeps the session's MCP servers. |
-| `environment: "cloud"` | Not an `Agent` call. Start a Cloud worker by running `claude --cloud` in its own `hc` terminal, per step 5 of `<huajar-stack>/skills/huajar-mode/references/cloud-workers.md`. When the worker needs this machine, or the cloud is not available, start a Local worker per `local-workers.md` in the same folder, and say so. Never use `isolation: "remote"`. Spawning N workers "in one message" means starting them through the rolling window in step 3 of `local-workers.md`, at most the caps at a time. |
+| `environment: "cloud"` | Not an `Agent` call. Start a Cloud worker by running `claude --cloud` in its own `hc` terminal, per step 5 of `<huajar-stack>/skills/huajar-mode/references/cloud-workers.md`. When the worker needs this machine, or the cloud is not available, start a Local worker per `local-workers.md` in the same folder, and say so. Never use `isolation: "remote"`. Spawning N workers "in one message" means starting them through the rolling window in step 3 of `local-workers.md` for Local workers, at most the Local ceiling at a time. Cloud workers start at once. |
 | "Assume the VM dies" | On the Local path, also assume the machine sleeps or restarts. |
 | `environment: "local"` | For a full worker, such as a swarm worker or an owner, a Local worker per `local-workers.md`, because it needs this machine. For any other subagent, omit the field. |
 | `cloud_base_branch: <b>` | Tell the worker to check out `<b>` first. |
@@ -65,7 +65,7 @@ Files keep huajar-stack's names.
 
 ## setup-pstack
 
-Follow `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, not pstack's `setup-pstack`. Its rule adds the budget ladder, the Local ceiling, and the quota cap.
+Follow `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, not pstack's `setup-pstack`. Its rule adds the budget ladder and the Local ceiling.
 
 ## Paths
 

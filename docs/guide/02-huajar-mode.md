@@ -111,7 +111,7 @@ A Cloud worker needs two things, and both fail silently:
 - The cloud environment can reach your repository on GitHub. Without that access, the session gets an uploaded copy and cannot push.
 - The huajar-stack plugin is installed and enabled on claude.ai, so it loads in every cloud session.
 
-Before the first Cloud worker of a run, the coordinator starts a short probe session that checks both, and if either fails, it names what is missing and starts the run's workers as Local workers instead. The quota cap from [setup](./01-setup.md#pick-your-models) limits how many full sessions, local and cloud, run at once. A fan-out larger than the cap still runs every worker, a few at a time. The [cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) has the steps.
+Before the first Cloud worker of a run, the coordinator starts a short probe session that checks both, and if either fails, it names what is missing and starts the run's workers as Local workers instead. The [cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) has the steps.
 
 When the work has to stay local, ask for a worktree up front:
 
