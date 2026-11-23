@@ -76,7 +76,7 @@ Follow `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, not pstack's `setup-
 | `.cursor/rules/*.mdc`, always-applied rules | `CLAUDE.md`, or `AGENTS.md` when no `CLAUDE.md` exists. Claude Code never reads `.mdc` files. The model rule is the exception. See Models. |
 | `https://github.com/cursor/plugins/blob/main/pstack/<path>` | `<huajar-stack>/<path>` when that file exists. Read the local copy and never fetch it. |
 | Read a playbook, a script, or a skill "from trunk" | Read the installed copy in `<huajar-stack>` by absolute path. Trunk can be ahead of it. |
-| A repo path that starts with `pstack/`, written `huajar-stack/` in huajar-stack's copy, such as `node huajar-stack/skills/huajar-mode/scripts/brief.mjs` or `git show origin/main:huajar-stack/<path>` | `<huajar-stack>/<path>`. Read the installed copy by absolute path, and never fetch it. |
+| A repo path that starts with `pstack/`, written `huajar-stack/` in huajar-stack's copy, such as `bash huajar-stack/skills/huajar-mode/scripts/worktree-audit.sh` or `git show origin/main:huajar-stack/<path>` | `<huajar-stack>/<path>`. Read the installed copy by absolute path, and never fetch it. |
 | `.cursor/worktrees/<repo>/<name>` | `<repo>/.claude/worktrees/<name>` |
 | Cursor's app data, `~/Library/Application Support/Cursor`, such as `state.vscdb.backup` and `snapshots/roots/<root>` | `~/.claude/file-history/`, Claude Code's checkpoint snapshots. Never clear Cursor's app data from a Claude Code run, because it belongs to another app. |
 | Pinned or active chats | Pinned or active sessions, as the user names them. |

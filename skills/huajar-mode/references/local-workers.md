@@ -71,32 +71,21 @@ hc run --bg --json --name <name>-dev --cwd '<path>' --label 'huajar.run=<run>' -
 
 ## 5. Brief
 
-Write the brief, with every field its playbook's brief names, to `<temp>/huajar-stack/<run>/<unit>.brief.md` (`<temp>` is as in step 6). Run `brief.mjs` by its absolute path, `<skill dir>/scripts/brief.mjs`, from the project's main checkout or worktree. It reads SHAs and worktrees from its cwd, and the installed skill directory is not a git repo. Pass the text on stdin in a form that expands nothing. Quote the path, because Git Bash strips the backslashes from an unquoted `C:\...` path. In Git Bash, use a quoted heredoc:
+Write the brief with the Write tool, with every field its playbook's brief names, to `<temp>/huajar-stack/<run>/<unit>.brief.md` (`<temp>` is as in step 6). Write creates the folder.
+
+- Never type an SHA or a branch from memory. In the same turn that writes the brief, run `git rev-parse --verify <ref>` for each full SHA, `git branch --show-current` and `git worktree list` for the topology, from the project's main checkout or worktree, and copy their output.
+- Never paste an issue or PR body into the brief. Save it to a file next to the brief and have the brief name that path, which carries the body exactly however long it is: `gh issue view <n> --repo <owner/name> --json title,body,comments > '<temp>/huajar-stack/<run>/<unit>.issue-<n>.json'`, or `gh pr view` to `<unit>.pr-<n>.json`. Never read an issue or PR with bare `--comments`, which prints nothing when stdout is not a terminal.
+- Write each path into a command in full and single-quoted, never through a shell variable. Git Bash strips the backslashes from an unquoted `C:\...` path, and a variable inside single quotes reaches the worker unexpanded.
+
+Then start Claude in its own terminal, from the coordinator's terminal, with the brief in its first prompt. Run these in Git Bash on Windows, because `test` and `>` are POSIX:
 
 ```
-node '<skill dir>/scripts/brief.mjs' write '<brief path>' --repo <owner/name> <<'EOF'
-<brief text>
-EOF
-```
-
-In PowerShell, which has no heredoc, use a single-quoted here-string. Keep the brief ASCII, because Windows PowerShell 5.1 pipes text as ASCII and turns `é` into `?`:
-
-```
-@'
-<brief text>
-'@ | node '<skill dir>/scripts/brief.mjs' write '<brief path>' --repo <owner/name>
-```
-
-- `write` creates the folder, prints the brief's path, and exits nonzero, leaving no brief, when the path is not absolute, the text is empty, or a placeholder fails. Never type an SHA or a branch from memory. Write `{{sha:<ref>}}` for a full SHA, `{{topology}}` for the current branch and worktrees, and `{{issue:<n>}}` or `{{pr:<n>}}` for an issue or PR read with `--json`. Never read an issue or PR with bare `--comments`, which prints nothing when stdout is not a terminal.
-
-Then start Claude in its own terminal, from the coordinator's terminal, with the brief in its first prompt:
-
-```
-hc run --bg --json --rm --outlive-parent --name <name> --cwd '<path>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=worker' --label 'huajar.report=<report path>' -- claude --strict-mcp-config --permission-mode auto --model <family> --effort <effort> "/huajar-stack:huajar-mode Read <brief path> and do what it says."
+test -s '<brief path>' && hc run --bg --json --rm --outlive-parent --name <name> --cwd '<path>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=worker' --label 'huajar.report=<report path>' -- claude --strict-mcp-config --permission-mode auto --model <family> --effort <effort> "/huajar-stack:huajar-mode Read <brief path> and do what it says."
 hc wait <name> --timeout 90 --json
 hc get <name> --json
 ```
 
+- `test -s` keeps `hc run` from starting a worker on a missing or empty brief. Add `test -s '<file>' &&` for each issue or PR file the brief names. When a test fails, nothing starts and `hc wait` fails with `not_found`. That is not the exit case below. Write the missing file and run the start again.
 - The first prompt starts with `/huajar-stack:huajar-mode`, so the worker loads the mode, as a Cloud worker does. A slash command loads it only as the session's first prompt typed in this way. A `/huajar-stack:huajar-mode` line inside the brief file, a prompt sent later with `hc send`, which wraps the text in `<hc from=...>`, and `claude --agent huajar-stack:huajar-agent` all leave the worker without the mode. The brief path must hold no `"`.
 - `<name>` is `<run>-<unit>`, matches `[a-z][a-z0-9_-]{0,27}`, so `<name>-dev` stays within the 32 characters `hc run --name` takes, and is unique among the terminals in `hc ls --all --json`, such as `run4-unit3`.
 - The worker gets no `herdr.space` or `herdr.tab` label. `hc` records the coordinator's terminal as its parent, so the Herdr app shows it once, as a sub-agent in the coordinator's tree, with its status. A space label adds a second entry, a space with its own pane, and makes the app turn recovery on. The `huajar.*` labels let a Herdr layout show runs, units, and reports, so keep their names. `<report path>` is the report's path from step 6.

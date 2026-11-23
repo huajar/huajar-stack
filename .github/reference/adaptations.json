@@ -11,7 +11,6 @@
     "K8": "local-workers.md reads the Parallel instances line of a project's verify skill to cap Local workers that run the app. pstack has no such cap.",
     "K9": "Claude Code's auto mode clears one action per chat approval and blocks the agent's own settings edits, so an unattended run needs its allow rules pasted first. Cursor has no counterpart.",
     "K13": "A script runs as code, so the map cannot translate it. It reads Claude Code transcripts under ~/.claude/projects, matches Windows paths as JSON and Git Bash write them, and keeps worktree paths that hold spaces.",
-    "K12": "The test script also runs brief.test.ts, the test of brief.mjs, which local-workers.md uses to write Local worker briefs.",
     "K10": "A Cloud owner cannot run gh GraphQL, so watch-pr falls back to the REST reader in rest.ts, which rest.test.ts tests.",
     "K11": "The test fakes gh with a bash script on a colon-separated PATH, which does not run on Windows.",
     "K14": "pstack installs with /add-plugin in a Cursor chat. People need the Claude Code install, and the map only helps agents.",
@@ -25,7 +24,6 @@
     "K23": "Claude Code guidance in place of a Cursor-only feature, or with no Cursor counterpart: /loop as a bundled skill, auto mode allow rules, restarting Claude Code, Claude Code Projects, routines, Desktop scheduled tasks, and the bundled /run and /verify.",
     "K24": "The pictures come from pstack and show its command names, so the guide tells people what to type instead.",
     "K25": "pstack's guide teaches Cursor and adds notes on installing and running pstack in Claude Code. huajar-stack's guide teaches Claude Code alone and writes each command with its `/huajar-stack:` prefix, so it needs no such notes.",
-    "K26": "local-workers.md writes each Local worker's brief with brief.mjs, which brief.test.ts tests. pstack starts no workers through `hc`, so it has neither file.",
     "K27": "pstack's text here covers a piece that the map's Left out of huajar-stack table names, so huajar-stack does not ship it: the make-bot-ui skill, or the benny automation pack.",
     "K28": "Claude Code's Agent tool takes `effort` as well as `model`, and setup-huajar-stack's rule omits both for `inherit-parent` and `auto`, so pstack's sentence that the subagent `model` field alone is omitted is false here.",
     "K29": "huajar-agent's file has no model line. A Cursor slug there would reach the Claude Code API, so the caller passes model and effort on every spawn, as the adapter says.",
@@ -282,31 +280,11 @@
     "skills/huajar-mode/scripts/worktree-audit.sh": {
       "whole": "K13"
     },
-    "skills/huajar-mode/scripts/brief.mjs": {
-      "whole": "K26"
-    },
-    "skills/huajar-mode/scripts/brief.test.ts": {
-      "whole": "K26"
-    },
     "skills/huajar-mode/scripts/watch-pr/rest.ts": {
       "whole": "K10"
     },
     "skills/huajar-mode/scripts/watch-pr/rest.test.ts": {
       "whole": "K10"
-    },
-    "skills/huajar-mode/scripts/package.json": {
-      "sentences": [
-        {
-          "sentence": "\"test\": \"bun test watch-pr brief.test.ts\",",
-          "group": "K12"
-        }
-      ],
-      "dropped": [
-        {
-          "sentence": "\"test\": \"bun test watch-pr\",",
-          "group": "K12"
-        }
-      ]
     },
     "skills/huajar-mode/scripts/watch-pr/cli.ts": {
       "sentences": [
