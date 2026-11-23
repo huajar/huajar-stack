@@ -75,17 +75,18 @@ The session clones the current branch of the repository's remote. Push the branc
 Start the launch in its own terminal, from the coordinator's terminal. `<name>` is `<run>-<unit>-cloud`, unique among the terminals in `hc ls --all --json`. Keep `<run>-<unit>` within 26 characters, 2 fewer than a Local worker's name, so `<name>` stays within the 32 characters `hc run --name` takes. `<family>` and `<effort>` come from the role's line or default, per the mode's Subagents section. For a role on `auto` or `inherit-parent`, they are the parent chat's model and effort. On Windows, the terminal runs PowerShell 7 (`pwsh`):
 
 ```
-hc run --bg --json --rm --outlive-parent --name <name> --cwd '<checkout>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=cloud' -- pwsh -NoLogo -NoExit -Command 'claude --permission-mode auto --model <family> --effort <effort> --cloud (Get-Content -Raw "$env:TEMP/huajar-stack/<run>/<unit>.brief.md")'
+grep -q '[^[:space:]]' '<temp>/huajar-stack/<run>/<unit>.brief.md' && hc run --bg --json --rm --outlive-parent --name <name> --cwd '<checkout>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=cloud' -- pwsh -NoLogo -NoExit -Command 'claude --permission-mode auto --model <family> --effort <effort> --cloud (Get-Content -Raw "$env:TEMP/huajar-stack/<run>/<unit>.brief.md")'
 ```
 
 On macOS and Linux, the terminal runs `sh` (not tested):
 
 ```
-hc run --bg --json --rm --outlive-parent --name <name> --cwd '<checkout>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=cloud' -- sh -c 'claude --permission-mode auto --model <family> --effort <effort> --cloud "$(cat "${TMPDIR:-/tmp}/huajar-stack/<run>/<unit>.brief.md")"; exec sh'
+grep -q '[^[:space:]]' '<temp>/huajar-stack/<run>/<unit>.brief.md' && hc run --bg --json --rm --outlive-parent --name <name> --cwd '<checkout>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=cloud' -- sh -c 'claude --permission-mode auto --model <family> --effort <effort> --cloud "$(cat "${TMPDIR:-/tmp}/huajar-stack/<run>/<unit>.brief.md")"; exec sh'
 ```
 
-Run the line unchanged from Git Bash or PowerShell 7.3 or later. Both pass a single-quoted argument as is, and the terminal reads the brief itself, so a space in the temp path does not break the launch. The PowerShell form works from Git Bash. PowerShell 7.2 and older, Windows PowerShell 5.1 included, pass native arguments in the legacy mode that drops the double quotes inside them, so the brief path breaks there (not tested). Check that `$PSVersionTable.PSVersion` is 7.3 or more, and run the line from Git Bash if it is not.
+Run the line unchanged from Git Bash on Windows, because `grep` is POSIX. Git Bash passes a single-quoted argument as is, and the terminal reads the brief itself, so a space in the temp path does not break the launch.
 
+- The `grep` guard keeps `hc run` from starting a session on a brief that is missing, empty, or only whitespace. It checks the file the terminal reads, with `<temp>` as in step 6 of the local workers reference. When it fails, nothing starts. Write the brief and run the launch again.
 - Keep forward slashes in the brief path. A backslash before a shell variable in a bash-built line drops part of the path. Then `Get-Content` fails, and the CLI says `--cloud requires a description`.
 - `-NoExit`, or `exec sh` in the POSIX form, keeps the terminal live after claude exits, so its screen stays readable until step 8's `hc kill`. Without it, `--rm` removes the terminal as soon as claude exits, and the session ID with it.
 - The terminal has no `herdr.space` label, so the Herdr app shows it only as a sub-agent in the coordinator's tree and leaves recovery off.
