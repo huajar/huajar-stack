@@ -1,6 +1,6 @@
 # Run work while you sleep
 
-This is the payoff for everything before it. An agent you can trust to verify its own work is an agent you can leave alone with a hard task. What makes that safe isn't hope. It's a checkable finish condition, an isolated worktree or Cloud worker, and a decision log you audit in the morning.
+This is the payoff for everything before it. An agent you can trust to verify its own work is an agent you can leave alone with a hard task. What makes that safe isn't hope. It's a checkable finish condition, an isolated worktree, and a decision log you audit in the morning.
 
 ![She waves goodnight from the door while robots keep the factory running, one updating a DECISION LOG wall board under a BUILD LOOP ACTIVE sign.](./images/overnight.jpg)
 
@@ -92,8 +92,6 @@ A whole program, such as a migration across many packages, has no playbook of it
 ```text
 /huajar-stack:huajar-mode migrate every package to the new store. own it until each one is converted and merged. i'll check in twice a day.
 ```
-
-Autopilot-full and Autopilot-stack start their workers and verifiers as Cloud workers by default, `claude --cloud` sessions that the coordinator launches from `hc` terminals, per [the cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md). The coordinator stays in your chat in a Herdr app terminal, so leave the machine running and the Herdr app open. Before the first Cloud worker, the run checks that the cloud environment can reach the repository and that huajar-stack is enabled on claude.ai, and stops the cloud path if either is missing. Work that needs this machine runs as Local workers. [Route work through `/huajar-stack:huajar-mode`](./02-huajar-mode.md#give-parallel-work-its-own-machine) covers the setup.
 
 ## Run many projects in parallel
 

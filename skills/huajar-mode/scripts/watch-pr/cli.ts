@@ -18,7 +18,6 @@ import {
   verdictFactory,
   type WatchClock,
 } from "./policy.ts";
-import { RestGitHubReader, SelectingGitHubReader } from "./rest.ts";
 import { renderJson, renderPretty } from "./render.ts";
 import type * as T from "./types.ts";
 import { nonEmpty, parsePrNumber } from "./types.ts";
@@ -159,10 +158,7 @@ export interface CliRuntime {
 }
 function realRuntime(): CliRuntime {
   return {
-    reader: new SelectingGitHubReader(
-      new GhGitHubReader(),
-      new RestGitHubReader()
-    ),
+    reader: new GhGitHubReader(),
     clock: {
       now: () => performance.now() / 1_000,
       observedAt: () => new Date().toISOString(),

@@ -5,19 +5,17 @@
     "A1": "Identity rename. huajar-stack is its own plugin.",
     "K2": "The map cannot express this step: the run needs `permissions.allow` rules before the user steps away.",
     "K4": "The map cannot express this step: on Windows an open handle makes the worktree removal fail halfway.",
-    "A4": "huajar-stack's own reference for workers through herdr. pstack has no counterpart.",
-    "K6": "The map sends setup-pstack here. This skill adds the budget ladder and the Local ceiling, which pstack has no counterpart for.",
+    "A4": "huajar-stack's own reference for agy and codex seats through herdr. pstack has no counterpart.",
+    "K6": "The map sends setup-pstack here. This skill adds the budget ladder and seat entries, which pstack has no counterpart for.",
     "K7": "pstack's help teaches Cursor: /add-plugin, Custom Modes and Option+Enter, Cursor's docs, and cursor-team-kit as another plugin. A map row cannot turn that into correct help for installing and running huajar-stack in Claude Code with Herdr.",
-    "K8": "local-workers.md reads the Parallel instances line of a project's verify skill to cap Local workers that run the app. pstack has no such cap.",
     "K9": "Claude Code's auto mode clears one action per chat approval and blocks the agent's own settings edits, so an unattended run needs its allow rules pasted first. Cursor has no counterpart.",
     "K13": "A script runs as code, so the map cannot translate it. It reads Claude Code transcripts under ~/.claude/projects, matches Windows paths as JSON and Git Bash write them, and keeps worktree paths that hold spaces.",
-    "K10": "A Cloud owner cannot run gh GraphQL, so watch-pr falls back to the REST reader in rest.ts, which rest.test.ts tests.",
     "K11": "The test fakes gh with a bash script on a colon-separated PATH, which does not run on Windows.",
     "K14": "pstack installs with /add-plugin in a Cursor chat. People need the Claude Code install, and the map only helps agents.",
-    "K15": "setup-huajar-stack differs from setup-pstack. It has Claude-only defaults at medium, the budget ladder, and the Local ceiling. The guide says what setup really does.",
+    "K15": "setup-huajar-stack differs from setup-pstack. It has Claude-only defaults at medium and the budget ladder. The guide says what setup really does.",
     "K17": "People read the guide, so it names Claude Code's paths and docs, such as .claude/skills and the skill docs, where pstack names Cursor's. The map only helps agents.",
     "K18": "pstack keeps the mode on with a Cursor Custom Mode. In Claude Code the mode stays in context until a compaction, so the guide says when to invoke it again.",
-    "K19": "pstack isolates parallel work with Cursor cloud subagents. huajar-stack runs Cloud workers from hc terminals, with the probe.",
+    "K19": "pstack isolates parallel work with Cursor cloud subagents. Its Claude Code map gives each worker a worktree instead, so the guide says that.",
     "K20": "huajar-stack runs only Claude models, so the judge and the trail reviewer run on Opus, not on a model from another vendor.",
     "K21": "GitHub slugs huajar-stack's heading with its /huajar-stack: prefix, so the link anchor differs from pstack's.",
     "K22": "huajar-stack ships deslop itself, so the guide does not send people to another plugin.",
@@ -175,75 +173,11 @@
         }
       ]
     },
-    "skills/huajar-mode/references/local-workers.md": {
-      "whole": "A4"
-    },
-    "skills/huajar-mode/references/cloud-workers.md": {
-      "whole": "A4"
-    },
     "skills/setup-huajar-stack/SKILL.md": {
       "whole": "K6"
     },
     "skills/huajar-help/SKILL.md": {
       "whole": "K7"
-    },
-    "skills/create-verification-skill/SKILL.md": {
-      "sentences": [
-        {
-          "sentence": "- **Isolate:** how many instances can run side by side, each with its own port, data dir, and profile?",
-          "group": "K8"
-        },
-        {
-          "sentence": "The answer becomes the `Parallel instances: N` line of the generated skill (see section 2).",
-          "group": "K8"
-        },
-        {
-          "sentence": "When they cannot, say why in the skill: refusing to double-drive a shared instance beats corrupting the user's session.",
-          "group": "K8"
-        },
-        {
-          "sentence": "- **Parallel instances:** one line near the top of the skill body, so a coordinator can read it without parsing prose:",
-          "group": "K8"
-        },
-        {
-          "sentence": "```",
-          "group": "K8"
-        },
-        {
-          "sentence": "Parallel instances: N",
-          "group": "K8"
-        },
-        {
-          "sentence": "```",
-          "group": "K8"
-        },
-        {
-          "sentence": "`N` is how many instances can run at once, each with its own port, data dir, and profile.",
-          "group": "K8"
-        },
-        {
-          "sentence": "Write `1` when they cannot run side by side.",
-          "group": "K8"
-        },
-        {
-          "sentence": "A coordinator verifies with `min(Local ceiling, N)` local workers, and a `verify-<app>` skill without the line verifies one instance at a time.",
-          "group": "K8"
-        },
-        {
-          "sentence": "Launch and Cleanup must work per instance: take the port, data dir, and profile as inputs, and tear down only the instance they started.",
-          "group": "K8"
-        }
-      ],
-      "dropped": [
-        {
-          "sentence": "- **Isolate:** can two instances run side by side (ports, data dirs, profiles)?",
-          "group": "K8"
-        },
-        {
-          "sentence": "If not, say so in the generated skill: refusing to double-drive a shared instance beats corrupting the user's session.",
-          "group": "K8"
-        }
-      ]
     },
     "skills/huajar-help/references/prompting.md": {
       "sentences": [
@@ -279,42 +213,6 @@
     },
     "skills/huajar-mode/scripts/worktree-audit.sh": {
       "whole": "K13"
-    },
-    "skills/huajar-mode/scripts/watch-pr/rest.ts": {
-      "whole": "K10"
-    },
-    "skills/huajar-mode/scripts/watch-pr/rest.test.ts": {
-      "whole": "K10"
-    },
-    "skills/huajar-mode/scripts/watch-pr/cli.ts": {
-      "sentences": [
-        {
-          "sentence": "import { RestGitHubReader, SelectingGitHubReader } from \"./rest.ts\";",
-          "group": "K10"
-        },
-        {
-          "sentence": "reader: new SelectingGitHubReader(",
-          "group": "K10"
-        },
-        {
-          "sentence": "new GhGitHubReader(),",
-          "group": "K10"
-        },
-        {
-          "sentence": "new RestGitHubReader()",
-          "group": "K10"
-        },
-        {
-          "sentence": "),",
-          "group": "K10"
-        }
-      ],
-      "dropped": [
-        {
-          "sentence": "reader: new GhGitHubReader(),",
-          "group": "K10"
-        }
-      ]
     },
     "skills/huajar-mode/scripts/watch-pr/github.test.ts": {
       "sentences": [
@@ -362,10 +260,6 @@
         },
         {
           "sentence": "It writes `~/.claude/rules/huajar-stack-models.md`, a small rule every huajar-stack skill reads.",
-          "group": "K15"
-        },
-        {
-          "sentence": "It also records the Local ceiling, the most full Claude Code sessions your machine runs at once, which setup suggests from your CPUs and memory.",
           "group": "K15"
         },
         {
@@ -491,43 +385,15 @@
           "group": "K18"
         },
         {
-          "sentence": "The cleanest isolation is a Cloud worker, a [`claude --cloud` session](https://code.claude.com/docs/en/claude-code-on-the-web) with its own VM and branch, so it can install dependencies and run checks without touching your machine.",
+          "sentence": "In Claude Code, the cleanest isolation is a worktree per agent.",
           "group": "K19"
         },
         {
-          "sentence": "Playbooks that fan out, such as `/huajar-stack:swarm` and Autopilot-full, start their workers as Cloud workers by default.",
+          "sentence": "Playbooks that fan out, such as `/huajar-stack:swarm` and Autopilot-full, give each worker its own worktree.",
           "group": "K19"
         },
         {
-          "sentence": "Your chat stays the coordinator and starts each one from its own `hc` terminal, so open the chat in a Herdr app terminal.",
-          "group": "K19"
-        },
-        {
-          "sentence": "[The cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) holds the launch.",
-          "group": "K19"
-        },
-        {
-          "sentence": "A Cloud worker needs two things, and both fail silently:",
-          "group": "K19"
-        },
-        {
-          "sentence": "- The cloud environment can reach your repository on GitHub.",
-          "group": "K19"
-        },
-        {
-          "sentence": "Without that access, the session gets an uploaded copy and cannot push.",
-          "group": "K19"
-        },
-        {
-          "sentence": "- The huajar-stack plugin is installed and enabled on claude.ai, so it loads in every cloud session.",
-          "group": "K19"
-        },
-        {
-          "sentence": "Before the first Cloud worker of a run, the coordinator starts a short probe session that checks both, and if either fails, it names what is missing and starts the run's workers as Local workers instead.",
-          "group": "K19"
-        },
-        {
-          "sentence": "The [cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) has the steps.",
+          "sentence": "To pick the base or the location yourself, ask for a worktree up front:",
           "group": "K19"
         }
       ],
@@ -550,6 +416,10 @@
         },
         {
           "sentence": "Type `/in-cloud` before the task, or ask the parent chat to hand work to cloud subagents.",
+          "group": "K19"
+        },
+        {
+          "sentence": "When the work has to stay local, ask for a worktree up front:",
           "group": "K19"
         }
       ]
@@ -675,10 +545,6 @@
     "docs/guide/07-overnight.md": {
       "sentences": [
         {
-          "sentence": "It's a checkable finish condition, an isolated worktree or Cloud worker, and a decision log you audit in the morning.",
-          "group": "K19"
-        },
-        {
           "sentence": "- `/loop` is Claude Code's built-in wake mechanism, a [bundled skill](https://code.claude.com/docs/en/scheduled-tasks), not a huajar-stack skill.",
           "group": "K23"
         },
@@ -727,26 +593,6 @@
           "group": "K23"
         },
         {
-          "sentence": "Autopilot-full and Autopilot-stack start their workers and verifiers as Cloud workers by default, `claude --cloud` sessions that the coordinator launches from `hc` terminals, per [the cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md).",
-          "group": "K19"
-        },
-        {
-          "sentence": "The coordinator stays in your chat in a Herdr app terminal, so leave the machine running and the Herdr app open.",
-          "group": "K19"
-        },
-        {
-          "sentence": "Before the first Cloud worker, the run checks that the cloud environment can reach the repository and that huajar-stack is enabled on claude.ai, and stops the cloud path if either is missing.",
-          "group": "K19"
-        },
-        {
-          "sentence": "Work that needs this machine runs as Local workers.",
-          "group": "K19"
-        },
-        {
-          "sentence": "[Route work through `/huajar-stack:huajar-mode`](./02-huajar-mode.md#give-parallel-work-its-own-machine) covers the setup.",
-          "group": "K19"
-        },
-        {
           "sentence": "A [Claude Code Project](https://code.claude.com/docs/en/claude-projects) gives one coordinator agent a persistent conversation.",
           "group": "K23"
         },
@@ -777,6 +623,10 @@
         {
           "sentence": "Before the skill hands back its summary, it spawns a reviewer on Opus to read the trail and the transcript, and the reply ends with an Attention section listing what deserves your scrutiny.",
           "group": "K20"
+        },
+        {
+          "sentence": "It's a checkable finish condition, an isolated worktree, and a decision log you audit in the morning.",
+          "group": "K19"
         }
       ],
       "dropped": [
@@ -905,7 +755,7 @@
           "group": "K18"
         },
         {
-          "sentence": "Run them as [Cloud workers](./02-huajar-mode.md#give-parallel-work-its-own-machine), or say \"own worktree per attempt\".",
+          "sentence": "Say \"own worktree per attempt\".",
           "group": "K19"
         }
       ],
@@ -1422,6 +1272,9 @@
           "group": "K33"
         }
       ]
+    },
+    "skills/huajar-mode/references/seats.md": {
+      "whole": "A4"
     }
   }
 }

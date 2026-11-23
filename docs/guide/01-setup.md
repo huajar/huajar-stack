@@ -21,7 +21,7 @@ Run:
 /huajar-stack:setup-huajar-stack
 ```
 
-[`/huajar-stack:setup-huajar-stack`](../../skills/setup-huajar-stack/SKILL.md) detects the models you have access to, asks for a reasoning budget, shows you each role (code delegates, judgment, the review panels), and asks what you want. Answer the questions. It writes `~/.claude/rules/huajar-stack-models.md`, a small rule every huajar-stack skill reads. It also records the Local ceiling, the most full Claude Code sessions your machine runs at once, which setup suggests from your CPUs and memory.
+[`/huajar-stack:setup-huajar-stack`](../../skills/setup-huajar-stack/SKILL.md) detects the models you have access to, asks for a reasoning budget, shows you each role (code delegates, judgment, the review panels), and asks what you want. Answer the questions. It writes `~/.claude/rules/huajar-stack-models.md`, a small rule every huajar-stack skill reads.
 
 The defaults are the same as the `medium` budget. Every role runs a Claude model at `medium` reasoning. Code, prose, judgment, and swarm workers run on Opus 5.5. The review panels mix Fable 5.2, Opus 5.5, and Sonnet 5.5. No role runs above `xhigh`. Outside a review panel, Fable 5.2 runs only when you name it for a task or after two Opus 5.5 runs of the same brief fail their check. `large` raises every role to `xhigh` and `small` lowers it to `low`. Verification runs on the `swarm workers` model.
 

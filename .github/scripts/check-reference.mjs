@@ -130,7 +130,7 @@ if (checks.includes("map")) {
     if (!existsSync(join(REPO, file))) failures.push(`map-copies.json row ${i + 1}: ${file} is missing\n  The copy it feeds in ${copyFile} is\n  ${mapText}\n  Find where ${file} moved, then update the row and ${copyFile} together.`);
     else if (!read(join(REPO, file)).includes(text)) failures.push(`map-copies.json row ${i + 1}: ${file} no longer has\n  ${text}\n  The copy it feeds in ${copyFile} is\n  ${mapText}\n  Re-read that copy, then update the row and the source together.`);
   });
-  const ruleShape = read(join(REPO, "skills/setup-huajar-stack/SKILL.md")).split("### 6. Write the rule")[1].split("```")[1];
+  const ruleShape = read(join(REPO, "skills/setup-huajar-stack/SKILL.md")).split("### 5. Write the rule")[1].split("```")[1];
   for (const line of ruleShape.split("\n").filter((l) => /^[^#\s][^:]*: /.test(l))) {
     if (!rows.some((r) => !r.in && r.text === line)) failures.push(`skills/setup-huajar-stack/SKILL.md step 6: no map-copies.json row for the map ties to\n  ${line}\n  Name this role's default model in the Models table of docs/harness/claude-code.md, and add a row that ties it to this line.`);
   }
