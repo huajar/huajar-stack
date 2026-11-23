@@ -37,7 +37,7 @@ Write `.cursor/skills/verify-<app>/SKILL.md` with YAML frontmatter (`name: verif
   Parallel instances: N
   ```
 
-  `N` is how many instances can run at once, each with its own port, data dir, and profile. Write `1` when they cannot run side by side. A coordinator verifies with `min(project Local in-flight cap, N)` local workers, and a `verify-<app>` skill without the line verifies one instance at a time. Launch and Cleanup must work per instance: take the port, data dir, and profile as inputs, and tear down only the instance they started.
+  `N` is how many instances can run at once, each with its own port, data dir, and profile. Write `1` when they cannot run side by side. A coordinator verifies with `min(Local ceiling, N)` local workers, and a `verify-<app>` skill without the line verifies one instance at a time. Launch and Cleanup must work per instance: take the port, data dir, and profile as inputs, and tear down only the instance they started.
 - **Helpers:** any script the skill ships is executable and its invocation is shown in the skill body. A helper the reader has to reverse-engineer is not a helper.
 
 ## 3. Seed the feature map

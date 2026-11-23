@@ -6,7 +6,7 @@
     "K2": "The map cannot express this step: the run needs `permissions.allow` rules before the user steps away.",
     "K4": "The map cannot express this step: on Windows an open handle makes the worktree removal fail halfway.",
     "A4": "huajar-stack's own reference for workers through herdr. pstack has no counterpart.",
-    "K6": "The map sends setup-pstack here. This skill adds the budget ladder, the Local ceiling, and the quota cap, which pstack has no counterpart for.",
+    "K6": "The map sends setup-pstack here. This skill adds the budget ladder and the Local ceiling, which pstack has no counterpart for.",
     "K7": "pstack's help teaches Cursor: /add-plugin, Custom Modes and Option+Enter, Cursor's docs, and cursor-team-kit as another plugin. A map row cannot turn that into correct help for installing and running huajar-stack in Claude Code with Herdr.",
     "K8": "local-workers.md reads the Parallel instances line of a project's verify skill to cap Local workers that run the app. pstack has no such cap.",
     "K9": "Claude Code's auto mode clears one action per chat approval and blocks the agent's own settings edits, so an unattended run needs its allow rules pasted first. Cursor has no counterpart.",
@@ -14,10 +14,10 @@
     "K10": "A Cloud owner cannot run gh GraphQL, so watch-pr falls back to the REST reader in rest.ts, which rest.test.ts tests.",
     "K11": "The test fakes gh with a bash script on a colon-separated PATH, which does not run on Windows.",
     "K14": "pstack installs with /add-plugin in a Cursor chat. People need the Claude Code install, and the map only helps agents.",
-    "K15": "setup-huajar-stack differs from setup-pstack. It has Claude-only defaults at medium, the budget ladder, the Local ceiling, and the quota cap. The guide says what setup really does.",
+    "K15": "setup-huajar-stack differs from setup-pstack. It has Claude-only defaults at medium, the budget ladder, and the Local ceiling. The guide says what setup really does.",
     "K17": "People read the guide, so it names Claude Code's paths and docs, such as .claude/skills and the skill docs, where pstack names Cursor's. The map only helps agents.",
     "K18": "pstack keeps the mode on with a Cursor Custom Mode. In Claude Code the mode stays in context until a compaction, so the guide says when to invoke it again.",
-    "K19": "pstack isolates parallel work with Cursor cloud subagents. huajar-stack runs Cloud workers from hc terminals, with the probe and the quota cap.",
+    "K19": "pstack isolates parallel work with Cursor cloud subagents. huajar-stack runs Cloud workers from hc terminals, with the probe.",
     "K20": "huajar-stack runs only Claude models, so the judge and the trail reviewer run on Opus, not on a model from another vendor.",
     "K21": "GitHub slugs huajar-stack's heading with its /huajar-stack: prefix, so the link anchor differs from pstack's.",
     "K22": "huajar-stack ships deslop itself, so the guide does not send people to another plugin.",
@@ -226,7 +226,7 @@
           "group": "K8"
         },
         {
-          "sentence": "A coordinator verifies with `min(project Local in-flight cap, N)` local workers, and a `verify-<app>` skill without the line verifies one instance at a time.",
+          "sentence": "A coordinator verifies with `min(Local ceiling, N)` local workers, and a `verify-<app>` skill without the line verifies one instance at a time.",
           "group": "K8"
         },
         {
@@ -366,14 +366,6 @@
         },
         {
           "sentence": "It also records the Local ceiling, the most full Claude Code sessions your machine runs at once, which setup suggests from your CPUs and memory.",
-          "group": "K15"
-        },
-        {
-          "sentence": "Then it asks for the quota cap, the most full sessions, local and cloud, that one coordinator runs at once, because both draw on the same token quota.",
-          "group": "K15"
-        },
-        {
-          "sentence": "It suggests 2.",
           "group": "K15"
         },
         {
@@ -532,14 +524,6 @@
         },
         {
           "sentence": "Before the first Cloud worker of a run, the coordinator starts a short probe session that checks both, and if either fails, it names what is missing and starts the run's workers as Local workers instead.",
-          "group": "K19"
-        },
-        {
-          "sentence": "The quota cap from [setup](./01-setup.md#pick-your-models) limits how many full sessions, local and cloud, run at once.",
-          "group": "K19"
-        },
-        {
-          "sentence": "A fan-out larger than the cap still runs every worker, a few at a time.",
           "group": "K19"
         },
         {
@@ -752,10 +736,6 @@
         },
         {
           "sentence": "Before the first Cloud worker, the run checks that the cloud environment can reach the repository and that huajar-stack is enabled on claude.ai, and stops the cloud path if either is missing.",
-          "group": "K19"
-        },
-        {
-          "sentence": "The quota cap from [setup](./01-setup.md#pick-your-models) limits how many full sessions run at once, local and cloud, and the rest wait their turn.",
           "group": "K19"
         },
         {

@@ -41,14 +41,6 @@ _Avoid_: remote agent
 **Local ceiling**:
 The most full local sessions the machine allows, which `setup-huajar-stack` sets.
 
-**Local in-flight cap**:
-The most full local sessions a coordinator runs at once in a project. It is never above the Local ceiling.
-_Avoid_: concurrency limit, which is Claude Code's subagent cap
-
-**Quota cap**:
-The most full sessions, local and cloud, that a coordinator holds in flight at once, which `setup-huajar-stack` sets. Both kinds draw on the same token quota, and each coordinator counts only its own sessions.
-_Avoid_: cloud cap
-
 ### Concepts
 
 **pstack**:

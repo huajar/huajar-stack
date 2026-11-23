@@ -73,7 +73,7 @@ The default answer is `/huajar-stack:huajar-mode`, which runs most of the others
 | Know what a small diff could break outside itself | [`/huajar-stack:blast-radius`](../blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`/huajar-stack:architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`/huajar-stack:arena`](../arena/SKILL.md) |
-| Run parallel checks over slices, or race workers, as Cloud workers or Local workers started from `hc` terminals in the Herdr app, at most the quota cap at a time | [`/huajar-stack:swarm`](../swarm/SKILL.md) |
+| Run parallel checks over slices, or race workers, as Cloud workers or Local workers started from `hc` terminals in the Herdr app | [`/huajar-stack:swarm`](../swarm/SKILL.md) |
 | Have different models review a diff and try to break it | [`/huajar-stack:interrogate`](../interrogate/SKILL.md) |
 | Fix a bug test-first when a cheap local test exists | [`/huajar-stack:tdd`](../tdd/SKILL.md) |
 | Apply TypeScript rules to `.ts` or `.tsx` work | [`/huajar-stack:typescript-best-practices`](../typescript-best-practices/SKILL.md) |
@@ -136,7 +136,7 @@ Principles are one-rule skills that `/huajar-stack:huajar-mode` reads and cites 
 | A new model choice had no effect | The rule from `/huajar-stack:setup-huajar-stack` applies to new chats. Start one. |
 | Runs cost more than expected | See the cost paragraph under Get set up. |
 | A skill didn't load on its own | Only `/huajar-stack:setup-huajar-stack` and the four team kit skills (`deslop`, `control-cli`, `control-ui`, `verify-this`) load from the user's words. The others load when the user types them or when `/huajar-stack:huajar-mode` runs them, and it doesn't run every skill. |
-| Parallel agents overwrote each other | Give each agent its own worktree, or run them as Cloud workers, `claude --cloud` sessions that each get their own VM. The coordinator starts each one from its own `hc` terminal, so open the chat in a Herdr app terminal. The quota cap from `/huajar-stack:setup-huajar-stack` limits how many run at once. They need the cloud environment to reach the repository and huajar-stack enabled on claude.ai. See [the cloud workers reference](../huajar-mode/references/cloud-workers.md). |
+| Parallel agents overwrote each other | Give each agent its own worktree, or run them as Cloud workers, `claude --cloud` sessions that each get their own VM. The coordinator starts each one from its own `hc` terminal, so open the chat in a Herdr app terminal. They need the cloud environment to reach the repository and huajar-stack enabled on claude.ai. See [the cloud workers reference](../huajar-mode/references/cloud-workers.md). |
 | An overnight run moved but finished nothing | `/loop` needs a check that can pass or fail, not a duration. See [guide page 7](../../docs/guide/07-overnight.md). |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That's the prove-it-works principle. |
 
