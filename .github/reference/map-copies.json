@@ -18,6 +18,7 @@
   {"map":"Never use `isolation: \"remote\"`","file":"skills/huajar-mode/references/cloud-workers.md","text":"Never start a worker with `Agent` and `isolation: \"remote\"`","why":"a worker never starts with isolation remote"},
   {"map":"per step 5 of `<huajar-stack>/skills/huajar-mode/references/cloud-workers.md`","file":"skills/huajar-mode/references/cloud-workers.md","text":"## 5. Launch","why":"step 5 of cloud-workers.md starts a Cloud worker"},
   {"map":"Watch one per step 6 of `cloud-workers.md`","file":"skills/huajar-mode/references/cloud-workers.md","text":"## 6. Watching","why":"step 6 of cloud-workers.md watches a worker"},
+  {"map":"An `hc` seat per step 9 of","file":"skills/huajar-mode/references/local-workers.md","text":"## 9. agy and codex seats","why":"step 9 of local-workers.md starts a seat"},
   {"map":"through the rolling window in step 3 of `local-workers.md`","file":"skills/huajar-mode/references/local-workers.md","text":"## 3. Capacity","why":"step 3 of local-workers.md holds the caps"},
   {"map":"through the rolling window in step 3 of `local-workers.md`","file":"skills/huajar-mode/references/local-workers.md","text":"**Rolling window.**","why":"step 3 of local-workers.md holds the rolling window"},
   {"map":"per the Git Bash rule in `local-workers.md`","file":"skills/huajar-mode/references/local-workers.md","text":"In Git Bash, prefix every command you run, not only the ones below, with `MSYS_NO_PATHCONV=1`","why":"the Git Bash prefix rule"},

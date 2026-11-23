@@ -12,6 +12,7 @@ Use this reference when a playbook or skill starts a Local worker on the Local p
 - [6. Report](#6-report)
 - [7. Waiting](#7-waiting)
 - [8. Cleanup](#8-cleanup)
+- [9. agy and codex seats](#9-agy-and-codex-seats)
 
 ## 1. herdr check
 
@@ -25,12 +26,13 @@ In PowerShell, the check is `-not [string]::IsNullOrEmpty($env:HC_TERMINAL_ID)`.
 
 - **A Local worker, counted against the Local ceiling.** A worker with the worker contract: its own worktree and branch, VERIFY, a push, and a report. Also any lane that loads the machine: gates, live, and perf.
 - **A native subagent, not counted.** Everything else: delegates that edit in the parent's checkout, explorers, reviewers, judges, and audits.
+- **An `hc` seat, counted against the Local ceiling.** Any role entry written `<agent>:<model>-<effort>`, a reviewer or judge included. It runs per step 9.
 
 ## 3. Capacity
 
 - The Local ceiling is the number on the `# local ceiling: N` line of `~/.claude/rules/huajar-stack-models.md`. If the rule has no such line, treat the ceiling as 2 and suggest `/huajar-stack:setup-huajar-stack`.
 - Every full local session counts against the Local ceiling: workers, verifiers, stackers, and babysitters. An Autopilot-full or Autopilot-stack owner on the Local path also leaves a place under the ceiling for the swarm of its step 4. A babysitter can hold a place under the ceiling for hours, so say so before you start one.
-- Two coordinators on one machine cannot see each other's runs. Before you start a worker, count every live agent on the machine, other coordinators included: the terminals in `hc ls --json` whose `agent` is a coding agent, `claude-code`, `claude`, or `pi`, except `$HC_TERMINAL_ID`, the coordinator's own terminal. A Claude terminal reports `claude` until Claude Code reports a status, such as while the folder trust dialog holds it. A shell (`pwsh.exe`, `pwsh`) or another program, such as a dev server's `node`, does not count. The run's workers stay in the count. Start at most the ceiling minus that machine count. No limit counts a Cloud worker, so start every Cloud worker of a fan-out at once, as pstack's swarm spawns all N workers in one message. When the ceiling starts fewer Local workers than a skill asks for, or makes a worker wait, say so in the run's report.
+- Two coordinators on one machine cannot see each other's runs. Before you start a worker, count every live agent on the machine, other coordinators included: the terminals in `hc ls --json` whose `agent` is a coding agent, `claude-code`, `claude`, `pi`, `agy`, or `codex`, except `$HC_TERMINAL_ID`, the coordinator's own terminal. A Claude terminal reports `claude` until Claude Code reports a status, such as while the folder trust dialog holds it. A shell (`pwsh.exe`, `pwsh`) or another program, such as a dev server's `node`, does not count. The run's workers stay in the count. Start at most the ceiling minus that machine count. No limit counts a Cloud worker, so start every Cloud worker of a fan-out at once, as pstack's swarm spawns all N workers in one message. When the ceiling starts fewer Local workers than a skill asks for, or makes a worker wait, say so in the run's report.
 - **Rolling window.** A fan-out of Local workers larger than the ceiling allows still runs every worker, at most as many at a time as fit. Each time a worker's report is recorded and the worker is cleaned up, start the next pending one that fits. A held owner that the root or the operator released resumes before any pending unit starts, because it already keeps its brief and its PR. Under the operator's stop (Autopilot-full step 7), the window starts no pending unit and resumes no owner until the operator releases the hold, because the stop is a zero-writes order for the whole run. Never wait for a whole batch to finish. The operator's stop and a released owner also apply to Cloud workers. A swarm race keeps all its arms and a partition keeps all its slices. A `first pass` race stops the window at the first arm that passes and does not start the remaining arms.
 - A worker that runs the app also counts against `Parallel instances: N` from the project's `verify-<app>` skill. Run at most `min(Local ceiling, N)` of them at once. A missing line or skill means 1. An instance another run started counts too. Each port from the verification skill that has a listener is one instance.
 - Act only on PRs this run opened, unless the user names others. Another coordinator's PRs are not yours to merge, retarget, or close.
@@ -73,6 +75,9 @@ Write the brief with the Write tool, with every field its playbook's brief names
 - Never type an SHA or a branch from memory. In the same turn that writes the brief, run `git rev-parse --verify <ref>` for each full SHA, `git branch --show-current` and `git worktree list` for the topology, from the project's main checkout or worktree, and copy their output.
 - Never paste an issue or PR body into the brief. Save it to a file next to the brief and have the brief name that path, which carries the body exactly however long it is: `gh issue view <n> --repo <owner/name> --json title,body,comments > '<temp>/huajar-stack/<run>/<unit>.issue-<n>.json'`, or `gh pr view` to `<unit>.pr-<n>.json`. Never read an issue or PR with bare `--comments`, which prints nothing when stdout is not a terminal.
 - Write each path into a command in full and single-quoted, never through a shell variable. Git Bash strips the backslashes from an unquoted `C:\...` path, and a variable inside single quotes reaches the worker unexpanded.
+- Join the commands the brief gives with `;`, never `&&`. A codex seat runs them in Windows PowerShell 5, which rejects `&&`, and `;` works in every shell.
+- Before you send the brief, run each check command it gives, as written, and confirm it does what the brief says. A command that only looks right, such as `bun test .github/x.test.ts`, which bun reads as a name filter, fails every worker the same way.
+- Put the `hc send` line, if the brief has one, as its own step that says "Run this alone, as its own command". A codex seat that folds it into a script runs it inside its sandbox, where `hc` is out of reach.
 
 Then start Claude in its own terminal, from the coordinator's terminal, with the brief in its first prompt. Run these in Git Bash on Windows, because `test` and `>` are POSIX:
 
@@ -123,3 +128,40 @@ If the run keeps a decision log, keep every path and ref it cites before step 7 
 3. Confirm the directory is gone (`test ! -e <path>`, or `Test-Path <path>` returns `False` in PowerShell). If it survives, find what still holds it, free it, delete the directory, and run `git worktree prune`.
 
 At the end of the run, handle the leftovers: any terminal the run started or worktree it created that is still open. Never add `--force` to a worktree with unpushed work. A worker that failed or never pushed: ask the user before removing its worktree. If `worktree remove` refuses because of untracked files and `git ls-remote` matches the worktree's HEAD, use `--force`. List the branches the run pushed with `git ls-remote --heads origin <branch>...`, and delete each one whose PR merged (`gh pr list --head <branch> --state merged`) with `git push origin --delete <branch>`. Then run `git fetch --prune`, and run `git branch -D` on each local branch the run created whose PR merged and whose upstream reads `[gone]` in `git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads`. Report each branch still left, and why. Never close or delete anything the run did not create. Asked whether anything is left over, answer from `hc ls --all --json`, `git worktree list`, and the run's open PRs.
+
+## 9. agy and codex seats
+
+A role entry written `<agent>:<model>-<effort>`, with `agent` `agy` or `codex`, runs as a seat: that CLI in its own `hc` terminal, with a brief. A seat's vendor is its model's, so `agy:claude-opus-5-5-medium` counts as Claude in a vendor check. This step was measured on Windows only.
+
+**Before the first codex seat.** Check that `~/.codex/config.toml` sets `prefer_mxc = true` under `[features]` and that `~/.codex/rules/hc.rules` holds `prefix_rule(pattern=["hc", "send"], decision="allow")`. The rule lets a command that starts with `hc send` leave the sandbox, because `hc`'s pipe is outside it. If either is missing, tell the user and drop the seat. Never edit codex's config yourself.
+
+**Folder.** A seat that writes gets a worktree, per step 4. A seat that only reads, such as a reviewer or a judge, gets the folder `<temp>/huajar-stack/<run>/<unit>/`. In either one, write `.huajar/.gitignore` holding `*`, then the brief at `.huajar/brief.md`. The brief names `.huajar/report.md` as its report, and its first line points to `worker.md` by absolute path, as for any worker. The `.gitignore` keeps both files out of `git add -A`. agy and codex read the whole disk, so the brief names every other file by its absolute path.
+
+**Start an agy seat.** The model is the entry's text after `agy:`, which `agy models` lists whole, such as `gemini-4-neon-xhigh`:
+
+```
+hc run --bg --json --rm --outlive-parent --name <name> --cwd '<path>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=seat' --label 'huajar.report=<path>/.huajar/report.md' -- agy --model <model> --settings '<temp>/huajar-stack/<run>/<unit>.agy.json'
+```
+
+Write the settings file first, with Write, never with `echo` or `printf`, which turn `\\` into `\` and leave invalid JSON: `{"trustedWorkspaces":["<path>"]}`, with the path in Windows form and each `\` written `\\`. With invalid JSON, agy exits at start with `exit_code` 1. It trusts the folder for this session only, so agy shows no trust dialog and saves nothing. Never answer the dialog with `hc keys`, which trusts the folder for good.
+
+**Start a codex seat.** Split the entry at its last `-`, so `codex:gpt-6.2-sol-high` is model `gpt-6.2-sol` with effort `high`. `codex debug models` lists each model's efforts:
+
+```
+hc run --bg --json --rm --outlive-parent --name <name> --cwd '<path>' --label 'huajar.run=<run>' --label 'huajar.unit=<unit>' --label 'huajar.role=seat' --label 'huajar.report=<path>/.huajar/report.md' -- codex --no-daemon -m <model> -c model_reasoning_effort=<effort> -c check_for_update_on_startup=false -a never -c "permissions.hcseat={extends=\":workspace\", network={enabled=true}, filesystem={'<G>\\worktrees\\<wt>'=\"write\", '<G>\\objects'=\"write\", '<G>\\refs'=\"write\", '<G>\\logs'=\"write\"}}" -c 'default_permissions="hcseat"'
+```
+
+- `<G>` is the main checkout's `.git`, from `git -C '<path>' rev-parse --path-format=absolute --git-common-dir`, and `<wt>` is the last part of `git -C '<path>' rev-parse --git-dir`. codex ignores a path written with `/`, and it says nothing, so `<G>` takes `\`. Inside the double-quoted `-c` value, the shell reads `\\` as one `\`, so write each `\` of `<G>` as `\\`, as the separators above are.
+- `extends=":workspace"` keeps codex's default sandbox. The seat reads the whole disk, writes only in its folder, and runs no command outside it. The sandbox keeps `.git` read-only, and a linked worktree's git data sits outside the folder. So the four entries open the `.git` subfolders that a commit writes. Never add `--sandbox`, which turns the profile off.
+- Every commit prints `error: Unable to create '<G>/packed-refs.lock': Permission denied`. The commit and the branch update land anyway.
+- A seat that only reads drops the `filesystem` entries.
+
+**Send the brief.** Start the seat with no prompt, because `hc` reads a seat that got its prompt at start as idle before it begins. Run `hc wait <name> --timeout 120 --json` until it shows a status, then:
+
+```
+hc send <name> "Read .huajar/brief.md and do what it says."
+```
+
+agy submits the message. codex does not, so run `hc keys <name> enter`, wait 5 seconds, and read `status.state` from `hc get <name> --json`. It can flash `idle` right after it starts, so read it once more before you act. If it still reads `idle`, send `enter` a second time. If it reads `idle` after that, read the screen with `hc read <name> --lines 120`.
+
+**Wait, report, and clean up.** Steps 7 and 8 apply. An agy seat keeps `turn` 0 while it works. Read the report at `<path>/.huajar/report.md`. If it is missing, read the screen with `hc read <name> --lines 120`. After `hc kill <name>`, delete the settings file and a read-only seat's folder.

@@ -15,9 +15,16 @@ Write `~/.claude/rules/huajar-stack-models.md`, an always-applied rule that sets
 
 Enumerate the model slugs you can run as an `Agent` subagent in this session. `Agent` takes a model alias and an effort level as two parameters. A slug joins the model ID that your system prompt gives for an alias with an effort level that `Agent` accepts, so `opus` and `xhigh` make `claude-opus-5-5-xhigh`. That is the dependable source. If you cannot detect any, ask the user to paste the slugs they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
 
+Then detect seats, models that another agent CLI runs in its own `hc` terminal, per step 9 of `<huajar-stack>/skills/huajar-mode/references/local-workers.md`. Skip this when `HC_TERMINAL_ID` is empty. A seat entry is `<agent>:<model>-<effort>`.
+
+- `agy models` lists each id with its effort, such as `gemini-4-neon-xhigh` or `claude-opus-5-5-medium`. Each id makes the entry `agy:<id>`.
+- `codex debug models` prints JSON. Each model whose `visibility` is `list` makes one entry per effort in its `supported_reasoning_levels`, such as `codex:gpt-6.2-sol-high`.
+
+A CLI that is not installed, or whose command fails, adds no entries.
+
 ### 2. Load current state
 
-The default role-to-model mapping is the rule shape shown in step 6 below. If `~/.claude/rules/huajar-stack-models.md` already exists, read it and treat its `# budget` and `# local ceiling` lines and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 6, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it. A `# quota cap` line is from a retired setting. Drop it too.
+The default role-to-model mapping is the rule shape shown in step 6 below. If `~/.claude/rules/huajar-stack-models.md` already exists, read it and treat its `# budget` and `# local ceiling` lines and its role values as the current choices. Otherwise start from those defaults. A line whose role is neither in step 6 nor one of step 3's two `swarm mechanical` lines, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it. A `# quota cap` line is from a retired setting. Drop it too.
 
 A rule without the `# defaults: 3` line comes from an older setup. That setup wrote a line for every role, so some of its values are old defaults, not choices. Before step 3, replace these values:
 
@@ -35,9 +42,9 @@ Every other value is the user's choice and stays, including every `inherit-paren
 - `medium — medium reasoning`
 - `small — low reasoning`
 
-**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). Families are the ones Phase A of the **arena** skill defines, so Fable is its own family. `large`, `medium`, and `small` set the effort token of every real slug, panel entries included, to `xhigh`, `medium`, or `low`. No role runs above `xhigh`. The effort token is the last token, in the order `xhigh` > `high` > `medium` > `low`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `large` turns `claude-opus-5-5-medium` into `claude-opus-5-5-xhigh`, `medium` keeps the defaults, and `small` turns them into `claude-opus-5-5-low`, `claude-fable-5-2-low`, and `claude-sonnet-5-5-low`.
+**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). Families are the ones Phase A of the **arena** skill defines, so Fable is its own family. `large`, `medium`, and `small` set the effort token of every real slug, panel entries included, to `xhigh`, `medium`, or `low`. No role runs above `xhigh`. The effort token is the last token, in the order `xhigh` > `high` > `medium` > `low`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent`, `auto`, and seat entries do not change, because a seat's levels are not Claude's. So `large` turns `claude-opus-5-5-medium` into `claude-opus-5-5-xhigh`, `medium` keeps the defaults, and `small` turns them into `claude-opus-5-5-low`, `claude-fable-5-2-low`, and `claude-sonnet-5-5-low`.
 
-**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` and `auto` as the options. Both mean the role runs on the parent chat model. Prefer AskUserQuestion over free text. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list. Its default is one Opus entry, which runs the cross-judge. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
+**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` and `auto` as the options. Both mean the role runs on the parent chat model. Prefer AskUserQuestion over free text. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list. Its default is one Opus entry, which runs the cross-judge. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm. Offer the detected seat entries too, at any level. Two lines have no default and are written only when the user picks a value. `swarm mechanical code` and `swarm mechanical text` run the swarm slices whose brief fixes the result, a check proves it, and no design choice is left, split by whether the slice changes code or prose. Other slices, and verification, stay on `swarm workers`.
 
 ### 4. Set the Local ceiling
 
@@ -55,7 +62,7 @@ If you did not keep the number, ask in one AskUserQuestion call whether to accep
 
 ### 5. Validate
 
-Every real slug written must be in the detected set and at `xhigh` or below. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.
+Every real slug written must be in the detected set and at `xhigh` or below. `inherit-parent` and `auto` always pass. A seat entry must be in step 1's seat entries. If a chosen real slug or seat entry is not available, stop and ask again.
 
 ### 6. Write the rule
 
@@ -65,6 +72,7 @@ Write `~/.claude/rules/huajar-stack-models.md` with no frontmatter, a `# budget`
 # huajar-stack model configuration. One line per role. Delete a line to fall back to the skill default.
 # `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Agent `model` and `effort`). Alias entries in a panel list still count toward its fan-out.
 # A slug is `claude-<family>-<version>-<effort>`. Pass `<family>` as Agent `model` and `<effort>` as Agent `effort`; the version is not used.
+# A seat entry is `<agent>:<model>-<effort>`, such as `agy:gemini-4-neon-xhigh`: an hc seat per step 9 of local-workers.md, never an Agent call.
 # defaults: 3
 # budget: medium (medium)
 # local ceiling: 6
