@@ -136,7 +136,7 @@ git fetch origin <report branch>
 git show FETCH_HEAD:report.md > <temp>/huajar-stack/<run>/<unit>.md
 ```
 
-In Git Bash, prefix `git show` with `MSYS_NO_PATHCONV=1`, per the opening paragraph of the local workers reference. In PowerShell, the redirect needs PowerShell 7, checked as in step 5 of this reference. Windows PowerShell 5.1 writes the file as UTF-16, so run the commands from Git Bash there. Record the saved file as in step 6 of that reference, and check that `git ls-remote origin <work branch>` prints the head SHA the report names.
+In Git Bash, prefix `git show` with `MSYS_NO_PATHCONV=1`, per the opening paragraph of the local workers reference. In PowerShell, the redirect needs PowerShell 7, so check that `$PSVersionTable.PSVersion` is 7 or more. Windows PowerShell 5.1 writes the file as UTF-16, so run the commands from Git Bash there. Record the saved file as in step 6 of that reference, and check that `git ls-remote origin <work branch>` prints the head SHA the report names.
 
 ## 8. Cleanup
 
