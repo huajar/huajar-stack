@@ -17,6 +17,8 @@ jobs:
         run: |
           bun install --frozen-lockfile
           bun test
+      - name: Run the script tests
+        run: bun test ./.github/scripts
       - run: npm install --global @anthropic-ai/claude-code@2.1.308
       - run: claude plugin validate .
       - name: Fetch the Reference

@@ -19,15 +19,15 @@ const prefixes = readFileSync(join(root, MAP), "utf8")
 	.filter((token) => /\.cursor\/|Application Support\/Cursor/.test(token))
 	.map((token) => normalize(token).split(/[*<]/)[0]);
 
-const files = execFileSync("git", ["-C", root, "ls-files", "skills", "agents", "hooks", "docs/guide"], { encoding: "utf8" })
-	.split("\n")
+const files = execFileSync("git", ["-C", root, "ls-files", "-z", "skills", "agents", "hooks", "docs/guide"], { encoding: "utf8" })
+	.split("\0")
 	.filter(Boolean);
 
 let failed = 0;
 for (const file of files) {
 	const text = readFileSync(join(root, file), "utf8");
 	if (text.includes("\0")) continue;
-	const prose = file.endsWith(".md");
+	const prose = /\.md$/i.test(file);
 	text.split("\n").forEach((line, i) => {
 		for (const [hit] of line.matchAll(HIT)) {
 			if (prose && prefixes.some((p) => normalize(hit).startsWith(p))) continue;
