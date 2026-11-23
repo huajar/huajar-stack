@@ -14,7 +14,7 @@ Rules for agents that change this repository. [README.md](README.md) says what h
 
 ## Files taken from pstack
 
-Files taken from pstack follow the Reference, pstack at `2f87c85`. A difference between such a file and the Reference is an Adaptation.
+Files taken from pstack follow the Reference, pstack at `0b46ec3`. A difference between such a file and the Reference is an Adaptation.
 
 - Take a file with `.github/scripts/sync-reference.mjs`. It writes the Reference's text with huajar names.
 - In the same pull request, list each Adaptation under the file in `.github/reference/adaptations.json`. Put each sentence the file adds in `sentences` and each pstack sentence it drops in `dropped`. Give each entry a group whose reason is written once in `groups` and is true for that sentence.
