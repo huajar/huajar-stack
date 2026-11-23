@@ -15,7 +15,7 @@ huajar-stack's mode, the skill a task starts from. pstack's counterpart is potet
 _Avoid_: personal mode, my mode
 
 **Reference**:
-pstack, plus the cursor-team-kit skills it calls (`deslop`, `control-cli`, and `control-ui`) and `verify-this`, which `control-ui` names, at the one pinned commit of `cursor/plugins` that huajar-stack follows, `2f87c85` (pstack 0.15.43). It is never installed. A maintainer moves the pin by hand.
+pstack, plus the cursor-team-kit skills it calls (`deslop`, `control-cli`, and `control-ui`) and `verify-this`, which `control-ui` names, at the one pinned commit of `cursor/plugins` that huajar-stack follows, `0b46ec3` (pstack 0.15.46). It is never installed. A maintainer moves the pin by hand.
 _Avoid_: base, upstream, parent
 
 **Adaptation**:
