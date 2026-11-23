@@ -53,7 +53,7 @@ agents/                       huajar-agent, which every delegate runs as, and co
 hooks/                        prints the map when a huajar-stack skill starts
 docs/harness/claude-code.md   the map
 docs/guide/                   the guide
-.github/                      CI, the check that keeps files taken from pstack in line with it, and the Cursor path check
+.github/                      CI, the check that keeps files taken from pstack in line with it, the Cursor path check, and the hook test
 ```
 
 ## Credits
