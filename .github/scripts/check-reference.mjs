@@ -132,7 +132,7 @@ if (checks.includes("map")) {
   });
   const ruleShape = read(join(REPO, "skills/setup-huajar-stack/SKILL.md")).split("### 5. Write the rule")[1].split("```")[1];
   for (const line of ruleShape.split("\n").filter((l) => /^[^#\s][^:]*: /.test(l))) {
-    if (!rows.some((r) => !r.in && r.text === line)) failures.push(`skills/setup-huajar-stack/SKILL.md step 6: no map-copies.json row for the map ties to\n  ${line}\n  Name this role's default model in the Models table of docs/harness/claude-code.md, and add a row that ties it to this line.`);
+    if (!rows.some((r) => !r.in && r.text === line)) failures.push(`skills/setup-huajar-stack/SKILL.md step 5: no map-copies.json row for the map ties to\n  ${line}\n  Name this role's default model in the Models table of docs/harness/claude-code.md, and add a row that ties it to this line.`);
   }
 }
 

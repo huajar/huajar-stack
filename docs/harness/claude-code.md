@@ -43,7 +43,7 @@ Files keep huajar-stack's names.
 | `readonly: false` | `general-purpose`. It keeps the session's MCP servers. |
 | `environment: "cloud"` | `isolation: "worktree"`. Name the branch or commit the worker checks out. |
 | `environment: "local"` | Omit. |
-| `cloud_base_branch: <b>` | Tell the worker to check out `<b>` first. |
+| `cloud_base_branch: <b>` | Tell the worker to start its own branch from `origin/<b>` first, such as `git switch -c <its branch> origin/<b>`. A plain `git checkout <b>` fails in a worktree when another worktree, such as the coordinator's, holds `<b>`. |
 | `run_in_background: true` | The same, when the `Agent` tool has the field. Otherwise omit it, since subagents then run in the background. |
 | `resume` | `SendMessage` to the agent's ID when the session offers it. Otherwise spawn a new agent and paste the earlier result into its brief. |
 | `file_attachments` | List the paths in the brief. |

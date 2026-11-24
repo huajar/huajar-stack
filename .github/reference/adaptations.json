@@ -609,6 +609,14 @@
           "group": "K23"
         },
         {
+          "sentence": "A cloud thread refuses GitHub's GraphQL API, so `gh pr view`, `gh pr checks`, and the Babysit watcher exit with `HTTP 403` there.",
+          "group": "K23"
+        },
+        {
+          "sentence": "Babysit and ship each PR from a session on your machine.",
+          "group": "K23"
+        },
+        {
           "sentence": "- Move related cloud sessions into the Project with **Move to project**, finished ones included.",
           "group": "K23"
         },

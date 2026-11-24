@@ -97,6 +97,8 @@ A whole program, such as a migration across many packages, has no playbook of it
 
 A [Claude Code Project](https://code.claude.com/docs/en/claude-projects) gives one coordinator agent a persistent conversation. Projects are in public beta on Pro and Max plans, and they run at claude.ai/code, in the desktop app, and in the mobile app, not in the terminal CLI. The coordinator doesn't write code. It directs threads, which run in the cloud by default, so the work continues when your laptop is closed. Add huajar-stack in **Project settings > Plugins**, so each cloud thread loads it, and ask the coordinator to start each thread with `/huajar-stack:huajar-mode`, so the threads follow the playbooks. Each agent it starts reads [`worker.md`](../../skills/huajar-mode/worker.md) first, so workers hold to the kickoff's bar, decide reversible calls instead of asking you, and open PRs ready for review.
 
+A cloud thread refuses GitHub's GraphQL API, so `gh pr view`, `gh pr checks`, and the Babysit watcher exit with `HTTP 403` there. Babysit and ship each PR from a session on your machine.
+
 A few habits help:
 
 - Give each body of work its own Project, such as a feature, a migration, a perf push, or a tech-debt cleanup. Several can run side by side.

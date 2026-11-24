@@ -36,7 +36,7 @@ Claude Code. Some playbooks also call these tools:
 - [Bun](https://bun.com/docs/installation), for `watch-pr`
 - [jq](https://jqlang.org/download/), for `worktree-audit.sh`
 - `gh`, the GitHub CLI, for both
-- the Herdr app, with `hc` on `PATH`, only for agy and codex seats. Open the session in a Herdr app terminal, and the mode starts, watches, and cleans up each seat there.
+- the Herdr app, with `hc` on `PATH`, for agy and codex seats, and on Windows to drive a CLI or TUI. Open the session in a Herdr app terminal, and the mode starts, watches, and cleans up each seat there.
 
 ## For agents
 
