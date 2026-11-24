@@ -104,16 +104,9 @@ A long chat accumulates context from the last task. When you change subjects, sa
 
 ## Give parallel work its own machine
 
-If you run several agents against one repository on one computer, they will fight over the working tree, the ports, and the build output. The cleanest isolation is a Cloud worker, a [`claude --cloud` session](https://code.claude.com/docs/en/claude-code-on-the-web) with its own VM and branch, so it can install dependencies and run checks without touching your machine. Playbooks that fan out, such as `/huajar-stack:swarm` and Autopilot-full, start their workers as Cloud workers by default. Your chat stays the coordinator and starts each one from its own `hc` terminal, so open the chat in a Herdr app terminal. [The cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) holds the launch.
+If you run several agents against one repository on one computer, they will fight over the working tree, the ports, and the build output. In Claude Code, the cleanest isolation is a worktree per agent. Playbooks that fan out, such as `/huajar-stack:swarm` and Autopilot-full, give each worker its own worktree.
 
-A Cloud worker needs two things, and both fail silently:
-
-- The cloud environment can reach your repository on GitHub. Without that access, the session gets an uploaded copy and cannot push.
-- The huajar-stack plugin is installed and enabled on claude.ai, so it loads in every cloud session.
-
-Before the first Cloud worker of a run, the coordinator starts a short probe session that checks both, and if either fails, it names what is missing and starts the run's workers as Local workers instead. The [cloud workers reference](../../skills/huajar-mode/references/cloud-workers.md) has the steps.
-
-When the work has to stay local, ask for a worktree up front:
+To pick the base or the location yourself, ask for a worktree up front:
 
 ```text
 /huajar-stack:huajar-mode new task. branch off <base> in a fresh worktree, then port the parser change there.

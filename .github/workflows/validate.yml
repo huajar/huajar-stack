@@ -74,7 +74,7 @@ jobs:
           fi
           if [ "$status" -eq 0 ]; then
             while IFS=: read -r file line text; do
-              echo "::error file=$file,line=$line::herdr 0.9 command. Use the Herdr app and hc, per skills/huajar-mode/references/local-workers.md and cloud-workers.md: $text"
+              echo "::error file=$file,line=$line::herdr 0.9 command. Use the Herdr app and hc, per skills/huajar-mode/references/seats.md: $text"
             done <<< "$matches"
           fi
           exit 1
@@ -100,7 +100,7 @@ jobs:
           fi
           if [ "$status" -eq 0 ]; then
             while IFS=: read -r file line text; do
-              echo "::error file=$file,line=$line::space label on a started terminal. Workers show once as sub-agents, per step 5 of skills/huajar-mode/references/local-workers.md: $text"
+              echo "::error file=$file,line=$line::space label on a started terminal. Seats show once as sub-agents, per step 4 of skills/huajar-mode/references/seats.md: $text"
             done <<< "$matches"
           fi
           exit 1

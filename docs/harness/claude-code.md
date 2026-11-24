@@ -41,10 +41,9 @@ Files keep huajar-stack's names.
 | The `model:` line in `poteto-agent`'s file | huajar-agent's file has none. Pass `model` and `effort` on every `Agent` call that spawns `huajar-stack:huajar-agent`, mapped with the Models table. |
 | `readonly: true` | `subagent_type: "Explore"`. It keeps `Bash`, so the brief says "do not edit files", and you check `git status` after. |
 | `readonly: false` | `general-purpose`. It keeps the session's MCP servers. |
-| `environment: "cloud"` | Not an `Agent` call. Start a Cloud worker by running `claude --cloud` in its own `hc` terminal, per step 5 of `<huajar-stack>/skills/huajar-mode/references/cloud-workers.md`. When the worker needs this machine, or the cloud is not available, start a Local worker per `local-workers.md` in the same folder, and say so. Never use `isolation: "remote"`. Spawning N workers "in one message" means starting them through the rolling window in step 3 of `local-workers.md` for Local workers, at most the Local ceiling at a time. Cloud workers start at once. |
-| "Assume the VM dies" | On the Local path, also assume the machine sleeps or restarts. |
-| `environment: "local"` | For a full worker, such as a swarm worker or an owner, a Local worker per `local-workers.md`, because it needs this machine. For any other subagent, omit the field. |
-| `cloud_base_branch: <b>` | Tell the worker to check out `<b>` first. |
+| `environment: "cloud"` | `isolation: "worktree"`. Name the branch or commit the worker checks out. |
+| `environment: "local"` | Omit. |
+| `cloud_base_branch: <b>` | Tell the worker to start its own branch from `origin/<b>` first, such as `git switch -c <its branch> origin/<b>`. A plain `git checkout <b>` fails in a worktree when another worktree, such as the coordinator's, holds `<b>`. |
 | `run_in_background: true` | The same, when the `Agent` tool has the field. Otherwise omit it, since subagents then run in the background. |
 | `resume` | `SendMessage` to the agent's ID when the session offers it. Otherwise spawn a new agent and paste the earlier result into its brief. |
 | `file_attachments` | List the paths in the brief. |
@@ -55,10 +54,10 @@ Files keep huajar-stack's names.
 | --- | --- |
 | `claude-<family>-<version>-<effort>[-fast]`, such as `claude-opus-5-5-xhigh` | `model: "opus"` and `effort: "xhigh"`. `model` takes only `opus`, `sonnet`, `haiku`, `fable`. Drop `-fast`. |
 | Pick a subagent's "fast or standard speed" | Pick only the reasoning level. Claude Code sets no speed per subagent. |
-| A skill's default slug for a role | The role's default in the rule shape of `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, step 6: Opus for the code roles, `judgment and prose`, `swarm workers`, and `arena cross-judge pool`, and Fable, Opus, and Sonnet, in that order, for `arena runners` and `interrogate reviewers`, all at `medium`. This holds for pstack's `-fast`, `high`, `xhigh`, and `gemini-*` defaults too. |
+| A skill's default slug for a role | The role's default in the rule shape of `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, step 5: Opus for the code roles, `judgment and prose`, `swarm workers`, and `arena cross-judge pool`, and Fable, Opus, and Sonnet, in that order, for `arena runners` and `interrogate reviewers`, all at `medium`. This holds for pstack's `-fast`, `high`, `xhigh`, and `gemini-*` defaults too. |
 | A `gemini-*`, `grok-*`, `gpt-*`, or other non-Claude slug that is not a role's default, for a verifier, a judge, or a lane that asks for a different model family or vendor | The first `arena cross-judge pool` entry from a vendor other than the work's. With none, `model: "opus"`. |
 | The arena judge's vendor check, "never from the parent's vendor" | Run it. An entry's vendor is its model's. With no entry from another vendor, the first entry judges, and say the check did not run. |
-| A role entry `<agent>:<model>-<effort>`, such as `agy:gemini-4-neon-xhigh` | An `hc` seat per step 9 of `<huajar-stack>/skills/huajar-mode/references/local-workers.md`, never an `Agent` call. |
+| A role entry `<agent>:<model>-<effort>`, such as `agy:gemini-4-neon-xhigh` | An `hc` seat per `<huajar-stack>/skills/huajar-mode/references/seats.md`, never an `Agent` call. |
 | The `swarm workers` line, for a slice whose brief fixes the result, a check proves it, and no design choice is left | The `swarm mechanical code` or `swarm mechanical text` line, by whether the slice changes code or prose, when the rule has it. Otherwise, or in doubt, `swarm workers`. |
 | Any other `gemini-*`, `grok-*`, `gpt-*`, or non-Claude slug, such as one the user names | Omit `model` so the agent runs on the session model, and say so. |
 | `auto` or `inherit-parent` | Omit `model` and `effort`. |
@@ -67,7 +66,7 @@ Files keep huajar-stack's names.
 
 ## setup-pstack
 
-Follow `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, not pstack's `setup-pstack`. Its rule adds the budget ladder and the Local ceiling.
+Follow `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, not pstack's `setup-pstack`. Its rule adds the budget ladder.
 
 ## Paths
 
@@ -92,20 +91,20 @@ pstack assumes macOS. On Windows, huajar-stack runs its commands in Git Bash.
 
 | pstack | Claude Code on Windows |
 | --- | --- |
-| A command with a ref and a path, such as `git show <ref>:<path>`, or an argument that starts with `/` | Prefix it with `MSYS_NO_PATHCONV=1` and write a drive path as `C:/Users`, per the Git Bash rule in `local-workers.md`. |
+| A command with a ref and a path, such as `git show <ref>:<path>`, or an argument that starts with `/` | Prefix it with `MSYS_NO_PATHCONV=1` when an argument has a colon after a ref or starts with `/` and is not a drive path such as `/c/Users`, because Git Bash otherwise rewrites it as a Windows path. With the prefix, write a drive path as `C:/Users`. |
 | A macOS-only tool, such as a spindump | Name the Windows tool next to it. |
 | A tmux or PTY session that drives a CLI or TUI | Inside a Herdr app terminal (`HC_TERMINAL_ID` is set), an `hc` terminal, one per drive, because tmux and `pty` do not run on Windows. |
 
 ## Cursor-only features
 
-Claude Code has no Cursor Automations, Bugbot, or Cursor cloud agents. When a step needs one and no row below replaces it, put one line in your reply, `Skipped in Claude Code: <step>. <reason>.`, then go on to the next step. Do not stop, ask, or retry. When a later step needs what the skipped step made, such as a URL or a key, leave a placeholder and name it in the line.
+Claude Code has no Cursor Automations, Bugbot, Cursor cloud agents, or built-in PR tool. When a step needs one and no row below replaces it, put one line in your reply, `Skipped in Claude Code: <step>. <reason>.`, then go on to the next step. Do not stop, ask, or retry. When a later step needs what the skipped step made, such as a URL or a key, leave a placeholder and name it in the line.
 
 | Cursor | Claude Code |
 | --- | --- |
 | Cursor Automations: routines, `update_state` routine calls, `api2.cursor.sh/automations` webhooks, routine wakes, and `SendToUser` secret requests | Skip with the line. |
 | Bugbot | Any review bot. Triage its threads per `<huajar-stack>/skills/huajar-mode/references/bugbot-triage.md`. Skip a step that starts, waits for, or configures a review bot when the PR has no review bot check or comment. |
-| Cursor cloud agents | Cloud workers, as `environment: "cloud"` in Subagent fields. Watch one per step 6 of `cloud-workers.md`. |
-| A built-in PR tool | In a Claude Code cloud session, the GitHub MCP server. Create the PR with `mcp__github__create_pull_request` and `draft: false`, read it back with `mcp__github__pull_request_read` before you refer to its status, and edit it, mark it ready, or close it with `mcp__github__update_pull_request`. If an MCP call fails, use `gh api` REST. The session refuses GraphQL, so `gh issue`, `gh pr view`, and `gh pr checks` exit 1 with `HTTP 403`. Outside a cloud session, use the forge command that the step gives, such as `gh pr create`. Neither is a skip, so write no line. |
+| Cursor cloud agents | `environment: "cloud"` maps to a worktree, as in Subagent fields. Skip a step that needs the cloud agent itself, such as its dashboard status or its own machine. |
+| A built-in PR tool | Use the forge command that the step gives, such as `gh pr create`. That is not a skip, so write no line. |
 
 ## Left out of huajar-stack
 

@@ -2,7 +2,7 @@
 
 # huajar-stack
 
-huajar-stack is a Claude Code plugin that runs each task to a check. You give it a goal and a check that can pass or fail. Its mode, huajar-mode, picks the playbook that fits the task, runs the steps with skills and subagents, and reports with the evidence. When a task fans out, it starts parallel workers from the Herdr app, each in its own terminal and worktree, on this machine or in Claude's cloud.
+huajar-stack is a Claude Code plugin that runs each task to a check. You give it a goal and a check that can pass or fail. Its mode, huajar-mode, picks the playbook that fits the task, runs the steps with skills and subagents, and reports with the evidence. When a task fans out, it gives each parallel worker its own worktree. A role written as an agy or codex entry runs that CLI as a seat in the Herdr app.
 
 ## Install
 
@@ -36,7 +36,7 @@ Claude Code. Some playbooks also call these tools:
 - [Bun](https://bun.com/docs/installation), for `watch-pr`
 - [jq](https://jqlang.org/download/), for `worktree-audit.sh`
 - `gh`, the GitHub CLI, for both
-- the Herdr app, with `hc` on `PATH`, for parallel workers. Open the session in a Herdr app terminal, and the mode starts, watches, and cleans up each worker there.
+- the Herdr app, with `hc` on `PATH`, for agy and codex seats, and on Windows to drive a CLI or TUI. Open the session in a Herdr app terminal, and the mode starts, watches, and cleans up each seat there.
 
 ## For agents
 
@@ -47,7 +47,7 @@ Claude Code. Some playbooks also call these tools:
 ## Repository layout
 
 ```text
-skills/huajar-mode/           the mode, its playbooks, its worker references, and its scripts
+skills/huajar-mode/           the mode, its playbooks, its references, and its scripts
 skills/<name>/                every other skill: situational skills, principles, setup, and help
 agents/                       huajar-agent, which every delegate runs as, and comment-sicko
 hooks/                        prints the map when a huajar-stack skill starts
@@ -58,4 +58,4 @@ docs/guide/                   the guide
 
 ## Credits
 
-huajar-stack builds on [pstack](https://github.com/cursor/plugins/tree/0b46ec399d55f2829e88822998f53b84944837d3/pstack) by Lauren Tan ([@poteto](https://x.com/poteto)), and follows it at a pinned commit, `0b46ec3`. It runs its parallel workers on the Herdr app and its `hc` CLI. Files taken from pstack and its companion plugin cursor-team-kit keep their MIT notices in [LICENSE](LICENSE).
+huajar-stack builds on [pstack](https://github.com/cursor/plugins/tree/0b46ec399d55f2829e88822998f53b84944837d3/pstack) by Lauren Tan ([@poteto](https://x.com/poteto)), and follows it at a pinned commit, `0b46ec3`. It runs its agy and codex seats on the Herdr app and its `hc` CLI. Files taken from pstack and its companion plugin cursor-team-kit keep their MIT notices in [LICENSE](LICENSE).

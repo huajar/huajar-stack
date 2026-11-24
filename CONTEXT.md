@@ -19,27 +19,16 @@ pstack, plus the cursor-team-kit skills it calls (`deslop`, `control-cli`, and `
 _Avoid_: base, upstream, parent
 
 **Adaptation**:
-A difference from the Reference that the environment forces, because pstack targets Cursor on macOS. huajar-stack runs in Claude Code in place of Cursor, with the Herdr app and `hc` for Local and Cloud workers, and on Windows with Git Bash. `.github/reference/adaptations.json` lists each Adaptation in a file taken from pstack.
+A difference from the Reference that the environment forces, because pstack targets Cursor on macOS. huajar-stack runs in Claude Code in place of Cursor, with the Herdr app and `hc` for agy and codex seats, and on Windows with Git Bash. `.github/reference/adaptations.json` lists each Adaptation in a file taken from pstack.
 _Avoid_: customization, tweak
 
 **Map**:
-The tables in `docs/harness/claude-code.md` that map each Cursor name in a skill from pstack to Claude Code, the Herdr app, and Claude Cloud. It extends pstack's Claude Code adapter. Its last table lists the pstack pieces huajar-stack leaves out.
+The tables in `docs/harness/claude-code.md` that map each Cursor name in a skill from pstack to Claude Code and the Herdr app. It extends pstack's Claude Code adapter. Its last table lists the pstack pieces huajar-stack leaves out.
 _Avoid_: translation layer. pstack calls it the Claude Code adapter, and the line in each skill keeps that name.
 
-**Local path**:
-Running a playbook end to end with Local workers only.
-_Avoid_: fallback, degraded mode
-
-**Local worker**:
-A full Claude Code session in its own git worktree and its own `hc` terminal, which the Herdr app shows once, as a sub-agent of the terminal that started it.
-_Avoid_: local agent
-
-**Cloud worker**:
-A `claude --cloud` session that a coordinator starts from an `hc` terminal, with the huajar-stack plugin enabled on claude.ai.
-_Avoid_: remote agent
-
-**Local ceiling**:
-The most full local sessions the machine allows, which `setup-huajar-stack` sets.
+**Seat**:
+A role entry written `<agent>:<model>-<effort>`, run as that agent CLI, agy or codex, in its own `hc` terminal. Every other role runs as an `Agent` subagent.
+_Avoid_: external worker
 
 ### Concepts
 
