@@ -1,6 +1,6 @@
 {
   "name": "huajar-stack",
-  "description": "Marketplace for huajar-stack, a Claude Code plugin that runs each task to a check, with parallel workers on the Herdr app.",
+  "description": "Marketplace for huajar-stack, a Claude Code plugin that runs each task to a check.",
   "owner": {
     "name": "Rodrigo Huajamaita",
     "url": "https://github.com/huajar"

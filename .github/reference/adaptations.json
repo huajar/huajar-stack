@@ -7,7 +7,7 @@
     "K4": "The map cannot express this step: on Windows an open handle makes the worktree removal fail halfway.",
     "A4": "huajar-stack's own reference for agy and codex seats through herdr. pstack has no counterpart.",
     "K6": "The map sends setup-pstack here. This skill adds the budget ladder and seat entries, which pstack has no counterpart for.",
-    "K7": "pstack's help teaches Cursor: /add-plugin, Custom Modes and Option+Enter, Cursor's docs, and cursor-team-kit as another plugin. A map row cannot turn that into correct help for installing and running huajar-stack in Claude Code with Herdr.",
+    "K7": "pstack's help teaches Cursor: /add-plugin, Custom Modes and Option+Enter, Cursor's docs, and cursor-team-kit as another plugin. A map row cannot turn that into correct help for installing and running huajar-stack in Claude Code.",
     "K9": "Claude Code's auto mode clears one action per chat approval and blocks the agent's own settings edits, so an unattended run needs its allow rules pasted first. Cursor has no counterpart.",
     "K13": "A script runs as code, so the map cannot translate it. It reads Claude Code transcripts under ~/.claude/projects, matches Windows paths as JSON and Git Bash write them, and keeps worktree paths that hold spaces.",
     "K11": "The test fakes gh with a bash script on a colon-separated PATH, which does not run on Windows.",
