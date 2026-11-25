@@ -1,6 +1,6 @@
 {
   "name": "huajar-stack",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "A Claude Code plugin that runs each task to a check, with a mode that picks the playbook and gives each parallel worker its own worktree.",
   "author": {
     "name": "Rodrigo Huajamaita",
