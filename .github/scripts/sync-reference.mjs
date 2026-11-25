@@ -8,7 +8,7 @@ import { dirname, join } from "node:path";
 import { parseArgs } from "node:util";
 
 const REPO = join(import.meta.dirname, "../..");
-const PIN = "0b46ec399d55f2829e88822998f53b84944837d3";
+const PIN = "9e278fe4d4ecd8bfe98b1b79bf4be662efb338cc";
 const { values, positionals } = parseArgs({ options: { reference: { type: "string" } }, allowPositionals: true });
 if (!values.reference || !positionals.length) throw new Error("usage: sync-reference.mjs --reference <clone> <repo path>...");
 

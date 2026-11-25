@@ -1,5 +1,5 @@
 {
-  "reference": "https://github.com/cursor/plugins/tree/0b46ec399d55f2829e88822998f53b84944837d3/pstack",
+  "reference": "https://github.com/cursor/plugins/tree/9e278fe4d4ecd8bfe98b1b79bf4be662efb338cc/pstack",
   "groups": {
     "K1": "Claude Code reads the agent frontmatter field `background`, not `is_background`.",
     "A1": "Identity rename. huajar-stack is its own plugin.",

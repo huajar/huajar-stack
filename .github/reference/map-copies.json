@@ -11,7 +11,7 @@
   {"map":"all at `medium`","file":"skills/setup-huajar-stack/SKILL.md","text":"# budget: medium (medium)","why":"every default effort is medium"},
   {"map":"`auto` or `inherit-parent` | Omit `model` and `effort`.","file":"skills/setup-huajar-stack/SKILL.md","text":"the role runs on the parent chat model (omit Agent `model` and `effort`)","why":"a role on auto or inherit-parent omits model and effort"},
   {"map":"If the file or the role's line is missing, use the skill's default slug.","file":"skills/setup-huajar-stack/SKILL.md","text":"Delete a line to fall back to the skill default.","why":"a missing role line falls back to the skill default"},
-  {"map":"extends pstack's adapter at `0b46ec3`","file":".github/reference/adaptations.json","text":"plugins/tree/0b46ec3","why":"the Reference commit"},
+  {"map":"extends pstack's adapter at `9e278fe`","file":".github/reference/adaptations.json","text":"plugins/tree/9e278fe","why":"the Reference commit"},
   {"map":"the rule shape of `<huajar-stack>/skills/setup-huajar-stack/SKILL.md`, step 5","file":"skills/setup-huajar-stack/SKILL.md","text":"### 5. Write the rule","why":"step 5 is the rule shape"},
   {"map":"`~/.claude/rules/huajar-stack-models.md`, already in context","file":"skills/setup-huajar-stack/SKILL.md","text":"Write `~/.claude/rules/huajar-stack-models.md`","why":"the rule's path"},
   {"in":"docs/guide/01-setup.md","map":"Code, prose, judgment, and swarm workers run on Opus 5.5","file":"skills/setup-huajar-stack/SKILL.md","text":"feature, refactoring: claude-opus-5-5-medium","why":"feature, refactoring runs on Opus"},
